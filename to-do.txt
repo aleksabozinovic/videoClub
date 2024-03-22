@@ -1,0 +1,24 @@
+  - Napraviti choose field gde moze da se izabere: inventarski broj, naslov, zanr...  ------------ Napravljeno
+		  
+		  - Ispod toga ide <input> gde moze da se ukuca sta se trazi -------- Napravljeno
+		  
+		    - Npr.. ako u choose field izaberes starosno ogranicenje(MPA rating) onda u <input> napises npr 16+
+		      i izbaci ti sve filmove koji su do 16+ --------- Napravljeno
+		/////////////////////////////////////////////////////////////////////////////////////////
+		
+			- Dodaj Usera
+				- CRUD FUNKCIONALNOSTI
+				-Pretraga i prikaz liste po imenu, prezimenu, kontakt telefonu i broju clanske karte ---- Napravljeno
+		
+		/////////////////////////////////////////////////////////////////////////////////////////
+			- Napraviti posebnu stranicu koja se zove pozajmljivanjeFilmova. Tu ce memberu izbaciti sve filmove koji imaju mogucnost da
+			se pozajme. ------ napravio stranicu, nisam tu opciju da ako je pozajmljen film da ga ne izbacuje
+			-Ako klikne na dugme pozajmi, mora da upise svoje ime prezime i inventarski broj. --- Napravljeno
+			-Ako ima 5 knjiga izbacice mu alert da mora da vrati knjigu. 
+			- Za membera mozes da dodas u polje u bazi koliko je filmova pozajmio, da pocinje od 0 preko String boota, Many to Many
+			///////////////////////////////////////////////////////////////////
+			- Dodati u bazu kao pozajmljene filmove koji se nece koristiti na /movieLoan stranici.
+			///////////////////////////////////////////
+			5 filmova imam u bazi podataka
+			pozajmio sam film sa inventarksim brojem 12
+			
