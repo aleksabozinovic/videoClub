@@ -10,10 +10,17 @@ import org.springframework.stereotype.Service;
 import com.videoclub.member.Member;
 import com.videoclub.repository.MemberRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+
 @Service
 @Configurable
 public class MemberService {
+	
 	@Autowired private MemberRepository repo;
+	@Autowired private EntityManager entitiyManager;
 	
 	public List<Member> listOfAllMembers(){
 		return (List<Member>) repo.findAll();
@@ -36,18 +43,33 @@ public class MemberService {
 	
 	
 	public List<Member> findByIme(String ime){
-		return repo.findByIme(ime);
+	
+		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
+		CriteriaQuery<Member> cq = cb.createQuery(Member.class);
+		Root<Member> member = cq.from(Member.class);
+		cq.select(member).where(cb.like(member.get("ime"), ime  + "%"));
+		return entitiyManager.createQuery(cq).getResultList();
+		
 	}	
 	
 	public List<Member> findByPrezime(String prezime){
-		return repo.findByPrezime(prezime);
+		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
+		CriteriaQuery<Member> cq = cb.createQuery(Member.class);
+		Root<Member> member = cq.from(Member.class);
+		cq.select(member).where(cb.like(member.get("prezime"), prezime  + "%"));
+		return entitiyManager.createQuery(cq).getResultList();
 	}
 	
 	public List<Member> findByBrojTelefona(String brojTelefona){
-		return repo.findByBrojTelefona(brojTelefona);
+		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
+		CriteriaQuery<Member> cq = cb.createQuery(Member.class);
+		Root<Member> member = cq.from(Member.class);
+		cq.select(member).where(cb.like(member.get("brojTelefona"), brojTelefona  + "%"));
+		return entitiyManager.createQuery(cq).getResultList();
 	}	
 	
 	public List<Member> findByBrojClanskeKarte(Integer brojClanskeKarte){
-		return repo.findByBrojClanskeKarte(brojClanskeKarte);
+	    String brojClanskeKarteString = String.valueOf(brojClanskeKarte);
+	    return repo.findByBrojClanskeKarteLike(brojClanskeKarteString);
 	}
 }

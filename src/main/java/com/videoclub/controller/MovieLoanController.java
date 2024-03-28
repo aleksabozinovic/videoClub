@@ -1,5 +1,7 @@
 package com.videoclub.controller;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.videoclub.member.Member;
 import com.videoclub.movie.Movie;
+import com.videoclub.movieloan.MovieLoan;
 import com.videoclub.repository.MemberRepository;
 import com.videoclub.repository.MovieRepository;
 import com.videoclub.service.MovieLoanService;
@@ -33,22 +36,44 @@ public class MovieLoanController {
 	
 	@Autowired
 	private MovieService movieService;
+
 	
-	
-	
-	@GetMapping("/pregledEvidencije")
-	public String showPregledEvidencije() {
-	
-		return "pregledEvidencije";
-		}
+	  @GetMapping("/pregledEvidencije")
+	    public String showPregledEvidencije(Model model,
+	                                        @RequestParam(value = "ime", required = false) String ime,
+	                                        @RequestParam(value = "prezime", required = false) String prezime,
+	                                        @RequestParam(value = "naslov", required = false) String naslov,
+	                                        @RequestParam(value = "inventarskiBroj", required = false) Integer inventarskiBroj,
+	                                        @RequestParam(value = "datumPozajmice", required = false) LocalDate datumPozajmice,
+	                                        @RequestParam(value = "datumVracanja", required = false) LocalDate datumVracanja) {
+
+		  List<MovieLoan> results = new ArrayList<>();
+		    if (ime != null) {
+		        results.addAll(movieLoanService.searchByIme(ime));
+		    }
+		    if (prezime != null) {
+		        results.addAll(movieLoanService.searchByPrezime(prezime));
+		    }
+		    if (naslov != null) {
+		        results.addAll(movieLoanService.searchByNaslov(naslov));
+		    }if(inventarskiBroj != null) {
+		        results.addAll(movieLoanService.searchByInventarskiBroj( inventarskiBroj));
+		    }if(datumPozajmice != null) {
+		        results.addAll(movieLoanService.searchByDatumPozajmice( datumPozajmice));
+		    }if(datumVracanja != null) {
+		        results.addAll(movieLoanService.searchByDatumVracanja(datumVracanja));
+		    }
+		    model.addAttribute("results", results);
+
+	        return "pregledEvidencije";
+	    }
 
 	
 	@GetMapping("/movieLoan")
 	public String showPozajmljivanjeFilmova(Model model) {
 		List<Movie> movieLists = movieLoanService.listMovies();
 		
-//		System.out.println("svi filmovi"  + movieLists);
-		
+
 		model.addAttribute("movieLists", movieLists);
 		return "movieLoan";
 		}
@@ -70,21 +95,18 @@ public class MovieLoanController {
 			@PathVariable Integer inventarskiBroj
 			){
 		
-		List<Member> member = memberRepo.findByBrojClanskeKarte(brojClanskeKarte);
-		List<Member> memberIme = memberRepo.findByIme(ime);
-		List<Member> memberPrezime = memberRepo.findByPrezime(prezime);
-		List<Movie> movie = movieRepo.findByInventarskiBroj(inventarskiBroj);
+
 		
 		// napraviti proveru da da li se poklapaju ime, prezime i inventarski broj pre nego sto se sacuva
-		if(!member.isEmpty() && !movie.isEmpty() && !memberIme.isEmpty() && !memberPrezime.isEmpty()) {
-			movieLoanService.saveManyToMany(inventarskiBroj, brojClanskeKarte);
-			String htmlResponse = "<html><body><h1>Podaci su uspesno sacuvani.</h1>"
-                    + "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
-			
+		try {
+			movieLoanService.saveManyToMany(inventarskiBroj, brojClanskeKarte,ime , prezime);
+			String htmlResponse = "<html><body><h1>Podaci su uspešno sačuvani.</h1>"
+					+ "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
+
 			return ResponseEntity.ok().body(htmlResponse);
-		}else {
-			String htmlResponse = "<html><body><h1>Podaci o članu ili filmu nisu tačni.</h1>"
-                    + "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
+		} catch (Exception e) {
+			String htmlResponse = "<html><body><h1>" + e.getMessage() + "</h1>"
+					+ "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
 			return ResponseEntity.badRequest().body(htmlResponse);
 		}
 
@@ -94,7 +116,6 @@ public class MovieLoanController {
 	public String showVracanjeFilmova() {
 		return "movieReturn";
 		}
-	
 	@PostMapping("/movieReturn")
 	public ResponseEntity<String> vracanjeFilmova(
 			@RequestParam String ime,
@@ -102,24 +123,31 @@ public class MovieLoanController {
 			@RequestParam Integer brojClanskeKarte,
 			@RequestParam Integer inventarskiBroj	
 			) {
-		
 		List<Member> member = memberRepo.findByBrojClanskeKarte(brojClanskeKarte);
 		List<Member> memberIme = memberRepo.findByIme(ime);
 		List<Member> memberPrezime = memberRepo.findByPrezime(prezime);
 		List<Movie> movie = movieRepo.findByInventarskiBroj(inventarskiBroj);
-		
+
 		// napraviti proveru da da li se poklapaju ime, prezime i inventarski broj pre nego sto se sacuva
-		if(!member.isEmpty() && !movie.isEmpty() && !memberIme.isEmpty() && !memberPrezime.isEmpty()) {
-			movieLoanService.vracanjeFilmova(inventarskiBroj, brojClanskeKarte, ime , prezime);
-			String htmlResponse = "<html><body><h1>Uspesno ste vratili film.</h1>"
-                    + "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
-			
-			return ResponseEntity.ok().body(htmlResponse);
-		}else {
-			String htmlResponse = "<html><body><h1>Podaci o članu ili filmu nisu tačni.</h1>"
-                    + "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
-			return ResponseEntity.badRequest().body(htmlResponse);
+		try {
+		    if(!member.isEmpty() && !movie.isEmpty() && !memberIme.isEmpty() && !memberPrezime.isEmpty()) {
+		        movieLoanService.vracanjeFilmova(inventarskiBroj, brojClanskeKarte, ime , prezime);
+		        String htmlResponse = "<html><body><h1>Uspesno ste vratili film.</h1>"
+		                + "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
+
+		        return ResponseEntity.ok().body(htmlResponse);
+		    } else {
+		        String htmlResponse = "<html><body><h1>Podaci o članu ili filmu nisu tačni.</h1>"
+		                + "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
+		        return ResponseEntity.badRequest().body(htmlResponse);
+		    }
+		} catch (Exception e) {
+		    String htmlResponse = "<html><body><h1>Došlo je do greške: " + e.getMessage() + "</h1>"
+		            + "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
+		    return ResponseEntity.internalServerError().body(htmlResponse);
 		}
+
 		
 	}
+
 }

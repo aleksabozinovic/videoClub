@@ -12,13 +12,19 @@
 		
 		/////////////////////////////////////////////////////////////////////////////////////////
 			- Napraviti posebnu stranicu koja se zove pozajmljivanjeFilmova. Tu ce memberu izbaciti sve filmove koji imaju mogucnost da
-			se pozajme. ------ napravio stranicu, nisam tu opciju da ako je pozajmljen film da ga ne izbacuje
+			se pozajme. ------ napravio
 			-Ako klikne na dugme pozajmi, mora da upise svoje ime prezime i inventarski broj. --- Napravljeno
 			-Ako ima 5 knjiga izbacice mu alert da mora da vrati knjigu. 
-			- Za membera mozes da dodas u polje u bazi koliko je filmova pozajmio, da pocinje od 0 preko String boota, Many to Many
 			///////////////////////////////////////////////////////////////////
-			- Dodati u bazu kao pozajmljene filmove koji se nece koristiti na /movieLoan stranici.
+			- Dodati u bazu kao pozajmljene filmove koji se nece koristiti na /movieLoan stranici. --- Napravljeno
 			///////////////////////////////////////////
-			5 filmova imam u bazi podataka
-			pozajmio sam film sa inventarksim brojem 12
+            Imas problem kada se film vrati i member opet pokusa da ga pozajmi, izbacuje gresku
+			//////////////////////////////////////////
+			Ostalo ti je da napravis pregled Evidencije ---------------------- Napravljeno
+			- Starosno Ogranicenje ---- Napravljeno
+			- ako member ima vise od 5 filmova da nije moguce da pozajmi vise dok ne vrati, --------- napravljeno
+			- I promeni datum vracanja Filma u DATE
+			- Treba proveriti da li su svi podaci u redu prilikom pozajmljivanja filma try catch, if...
+
+
 			

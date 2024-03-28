@@ -16,9 +16,9 @@ public class Movie {
 	
 	@Column(name = "zanr")
 	private String zanr;
-	
+
 	@Column(name= "mpa_rating")
-	private String mpaRating;
+	private Integer mpaRating;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +38,7 @@ public class Movie {
 	private String datumUnosa;
 	
 	
-	public Movie(String naslov, String zanr, String mpaRating, Integer inventarskiBroj, String opis, String jezik,
+	public Movie(String naslov, String zanr, Integer mpaRating, Integer inventarskiBroj, String opis, String jezik,
 			String godinaSnimanja, String datumUnosa) {
 		super();
 		this.naslov = naslov;
@@ -52,12 +52,13 @@ public class Movie {
 	}
 
 
-	public Movie(String naslov, String zanr, String mpaRating, String opis, String jezik, String godinaSnimanja,
-			String datumUnosa) {
+	public Movie(String naslov, String zanr, Integer mpaRating, String opis, String jezik, String godinaSnimanja,
+                 String datumUnosa) {
 		super();
 		this.naslov = naslov;
 		this.zanr = zanr;
-		this.mpaRating = mpaRating;
+
+        this.mpaRating = mpaRating;
 		this.opis = opis;
 		this.jezik = jezik;
 		this.godinaSnimanja = godinaSnimanja;
@@ -89,12 +90,12 @@ public class Movie {
 	}
 
 
-	public String getMpaRating() {
+	public Integer getMpaRating() {
 		return mpaRating;
 	}
 
 
-	public void setMpaRating(String d) {
+	public void setMpaRating(Integer d) {
 		this.mpaRating = d;
 	}
 
@@ -156,7 +157,5 @@ public class Movie {
 				+ ", datumUnosa=" + datumUnosa + "]";
 	}
 
-	
-	
-	
+
 }

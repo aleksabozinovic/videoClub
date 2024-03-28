@@ -41,6 +41,7 @@ public class MovieController {
 	
 	@PostMapping("/movie")
 	public String saveMovie(Movie movie) {
+
 		service.save(movie);
 		return "redirect:/movie";
 	}
@@ -74,7 +75,7 @@ public class MovieController {
 			            filteredMovies = service.findMoviesByGodinaSnimanja(vrednost);
 			            break;
 			        case "starosnoOgranicenje":
-			            filteredMovies = service.findMoviesByMpaRating(vrednost);
+			            filteredMovies = service.findMoviesByMpaRating(Integer.parseInt(vrednost));
 			            break;
 			        default:
 			            filteredMovies = service.listAllMovies();

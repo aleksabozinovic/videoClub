@@ -8,7 +8,7 @@
   </head>
   <body>
 		<div class="container-fluid">
-			<div class="text-center"><h2>Product Details</h2></div>
+			<div class="text-center"><h2>Dodaj Film</h2></div>
 			  	<form th:action="@{/movie}" method="post" th:object="${movie}" style="max-width: 500px; margin: 0 auto;">
 					  <input type="hidden" th:field="*{inventarskiBroj}">
 					  <div class="border border-secondary rounded p-3">
@@ -16,7 +16,7 @@
 						  <div class="form-group row mb-3">
 							  <label class="col-sm-4 col-from-label">Naslov filma:</label>
 								<div class="col-sm-8">
-									<input name="naslov" type="text" th:field="*{naslov}" class="form-control"/>
+									<input required name="naslov" type="text" th:field="*{naslov}" class="form-control"/>
 								</div>
 						  </div>
 						  
@@ -24,7 +24,7 @@
 						   <div class="form-group row mb-3">
 							  <label class="col-sm-4 col-from-label">Zanr filma:</label>
 								<div class="col-sm-8">
-									<input name="zanr" type="text" th:field="*{zanr}" class="form-control"/>
+									<input required name="zanr" type="text" th:field="*{zanr}" class="form-control"/>
 								</div>
 						  </div>
 						  
@@ -32,7 +32,7 @@
 						 <div class="form-group row mb-3">
 							  <label class="col-sm-4 col-from-label">Mpa Rejting filma:</label>
 								<div class="col-sm-8">
-									<input name="mpaRating" type="text" th:field="*{mpaRating}" class="form-control"/>
+									<input required name="mpaRating" type="text" th:field="*{mpaRating}" class="form-control"/>
 								</div>
 						  </div>
 						  
@@ -40,7 +40,7 @@
 						 	<div class="form-group row mb-3">
 							  <label class="col-sm-4 col-from-label">Opis filma:</label>
 								<div class="col-sm-8">
-									<input name="opis" type="text" th:field="*{opis}" class="form-control"/>
+									<input required name="opis" type="text" th:field="*{opis}" class="form-control"/>
 								</div>
 						  </div>
 						  
@@ -48,7 +48,7 @@
 						 	<div class="form-group row mb-3">
 							  <label class="col-sm-4 col-from-label">Jezik filma:</label>
 								<div class="col-sm-8">
-									<input name="jezik" type="text" th:field="*{jezik}" class="form-control"/>
+									<input required name="jezik" type="text" th:field="*{jezik}" class="form-control"/>
 								</div>
 						  </div>
 						  
@@ -56,7 +56,7 @@
 						 	<div class="form-group row mb-3">
 							  <label class="col-sm-4 col-from-label">Godina Snimanja filma:</label>
 								<div class="col-sm-8">
-									<input name="godinaSnimanja" type="text" th:field="*{godinaSnimanja}" class="form-control"/>
+									<input required name="godinaSnimanja" type="text" th:field="*{godinaSnimanja}" class="form-control"/>
 								</div>
 						  </div>
 						  
@@ -64,7 +64,7 @@
 						 	<div class="form-group row mb-3">
 							  <label class="col-sm-4 col-from-label">Datum unosa u bazu podataka:</label>
 								<div class="col-sm-8">
-									<input name="datumUnosa" type="text" th:field="*{datumUnosa}" class="form-control"/>
+									<input required name="datumUnosa" type="text" th:field="*{datumUnosa}" class="form-control"/>
 								</div>
 						  </div>
 					  </div>

@@ -16,7 +16,7 @@ public interface MovieRepository extends JpaRepository<Movie, Integer>{
 	List<Movie> findByInventarskiBroj(Integer vrednost);
 	List<Movie> findByJezik(String jezik);
 	List<Movie> findByGodinaSnimanja(String godina_snimanja);
-	List<Movie> findByMpaRating(String mpa_rating);
+	List<Movie> findByMpaRating(Integer mpa_rating);
 
 	// Trazi filmove koji nisu pozajmljeni
 	List<Movie> findByInventarskiBrojNotIn(List<Integer> inventarskiBroj);

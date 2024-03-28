@@ -1,21 +1,16 @@
 package com.videoclub.movieloan;
 
-
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
 
 import com.videoclub.member.Member;
 import com.videoclub.movie.Movie;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 
 
@@ -28,25 +23,19 @@ public class MovieLoan {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer Id;
-	private String datumIznajmljivanjaFilma;
-	private String datumVracanjaFilma;
+	
+	private LocalDate datumIznajmljivanjaFilma;
+	private LocalDate datumVracanjaFilma;
 	
 	@ManyToOne
 	@JoinColumn(name="inventarski_broj", referencedColumnName = "inventarski_broj")
 	private Movie movie;
+
+	@ManyToOne
+	@JoinColumn(name="broj_clanske_karte", referencedColumnName = "broj_clanske_karte")
+	private Member member;
 	
-	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(
-			name = "movie_loan_member",
-			joinColumns = @JoinColumn(name = "movie_id", referencedColumnName = "inventarski_broj"),
-			inverseJoinColumns = 
-					@JoinColumn(name = "member_id")
-				
-			
-			)
-	
-	private Set<Member> clanovi = new HashSet<>();
+
 	
 	// Uzima inventarski broj
 	public Integer getInventarskiBroj() {
@@ -54,7 +43,22 @@ public class MovieLoan {
 	}
 	
 	
+//	Dodavanje iz drugih klasa
+	public String getNazivFilma() {
+		return movie != null ? movie.getNaslov() : null;
+	}
+
 	
+	public Member getMember() {
+		return member;
+	}
+
+
+	public void setMember(Member member) {
+		this.member = member;
+	}
+
+
 	public Movie getMovie() {
 		return movie;
 	}
@@ -63,41 +67,35 @@ public class MovieLoan {
 		this.movie = movie;
 	}
 
-	public Set<Member> getClanovi() {
-		return clanovi;
-	}
 
-	public void setClanovi(Set<Member> clanovi) {
-		this.clanovi = clanovi;
-	}
 
-	public MovieLoan(String datumIznajmljivanjaFilma, String datumVracanjaFilma) {
+	public MovieLoan(LocalDate datumIznajmljivanjaFilma, LocalDate datumVracanjaFilma) {
 		super();
 		this.datumIznajmljivanjaFilma = datumIznajmljivanjaFilma;
 		this.datumVracanjaFilma = datumVracanjaFilma;
 	}
 
 	public MovieLoan() {
-	
+
 	}
 
 	
-	public String getDatumIznajmljivanjaFilma() {
+	public LocalDate getDatumIznajmljivanjaFilma() {
 		return datumIznajmljivanjaFilma;
 	}
 
-	public void setDatumIznajmljivanjaFilma(String datumIznajmljivanjaFilma) {
+	public void setDatumIznajmljivanjaFilma(LocalDate datumIznajmljivanjaFilma) {
 		this.datumIznajmljivanjaFilma = datumIznajmljivanjaFilma;
 	}
 
-	public String getDatumVracanjaFilma() {
+	public LocalDate getDatumVracanjaFilma() {
 		return datumVracanjaFilma;
 	}
 
-	public void setDatumVracanjaFilma(String datumVracanjaFilma) {
+	public void setDatumVracanjaFilma(LocalDate datumVracanjaFilma) {
 		this.datumVracanjaFilma = datumVracanjaFilma;
 	}
-	
-	
+
+
 	
 }

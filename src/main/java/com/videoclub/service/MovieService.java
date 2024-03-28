@@ -50,7 +50,7 @@ public class MovieService {
 		public List<Movie> findMoviesByGodinaSnimanja(String keyword){
 			return repo.findByGodinaSnimanja(keyword);
 		}
-		public List<Movie> findMoviesByMpaRating(String keyword){
+		public List<Movie> findMoviesByMpaRating(Integer keyword){
 			return repo.findByMpaRating(keyword);
 		}
 	
