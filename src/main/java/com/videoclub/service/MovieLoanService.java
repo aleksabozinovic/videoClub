@@ -115,19 +115,19 @@ public class MovieLoanService {
 
 	
 	public List<MovieLoan> searchByIme(String ime) {
-	    return movieLoanRepo.findByMemberIme(ime);
+	    return movieLoanRepo.findByMember_ImeStartingWith(ime);
 	}
 
 	public List<MovieLoan> searchByPrezime(String prezime) {
-	    return movieLoanRepo.findByMemberPrezime(prezime);
+	    return movieLoanRepo.findByMember_PrezimeStartingWith(prezime);
 	}
 
 	public List<MovieLoan> searchByNaslov(String naslov) {
-	    return movieLoanRepo.findByMovieNaslov(naslov);
+	    return movieLoanRepo.findByMovie_NaslovStartingWith(naslov);
 	}
 
-	public List<MovieLoan> searchByInventarskiBroj(Integer inventarskiBroj) {
-	    return movieLoanRepo.findByMovieInventarskiBroj(inventarskiBroj);
+	public List<MovieLoan> searchByInventarskiBroj(String inventarskiBroj) {
+	    return movieLoanRepo.findByInventarskiBrojAsString( inventarskiBroj.toString());
 	}
 	public List<MovieLoan> searchByDatumPozajmice(LocalDate datumPozajmice) {
 	    return movieLoanRepo.findByDatumIznajmljivanjaFilma(datumPozajmice);

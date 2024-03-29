@@ -49,7 +49,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Ime:</label>
 					<div class="col-sm-9">
-						<input name="ime" type="text"   class="form-control">
+						<input th:value="${param.ime}" name="ime" type="text"   class="form-control">
 					</div>
 				</div>
 				
@@ -57,7 +57,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Prezime:</label>
 					<div class="col-sm-9">
-						<input  type="text"  name="prezime"  class="form-control">
+						<input th:value="${param.prezime}"  type="text"  name="prezime"  class="form-control">
 					</div>
 				</div>
 				
@@ -65,7 +65,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Broj Telefona:</label>
 					<div class="col-sm-9">
-						<input  type="text"  name="brojTelefona"  class="form-control">
+						<input th:value="${param.brojTelefona}"  type="text"  name="brojTelefona"  class="form-control">
 					</div>
 				</div>
 				
@@ -73,7 +73,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Broj Clanske Karte:</label>
 					<div class="col-sm-9">
-						<input name="brojClanskeKarte" type="text"   class="form-control">
+						<input th:value="${param.brojClanskeKarte}" name="brojClanskeKarte" type="text"   class="form-control">
 					</div>
 				</div>
 				

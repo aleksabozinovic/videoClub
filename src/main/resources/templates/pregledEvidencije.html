@@ -45,14 +45,14 @@
 					<div class="form-group row mb-3">
 						<label class="col-sm-3 col-form-label">Ime:</label>
 						<div class="col-sm-9">
-							<input type="text" name = "ime" class="form-control">
+							<input th:value="${param.ime}" type="text" name = "ime" class="form-control">
 						</div>
 					</div>
 					<!-- Druga Kolona -->
 					<div class="form-group row mb-3">
 						<label class="col-sm-3 col-form-label">Prezime:</label>
 						<div class="col-sm-9">
-							<input type="text" name = "prezime" class="form-control">
+							<input th:value="${param.prezime}" type="text" name = "prezime" class="form-control">
 						</div>
 					</div>
 				</div>
@@ -64,14 +64,14 @@
 					<div class="form-group row mb-3">
 						<label class="col-sm-3 col-form-label">Naslov:</label>
 						<div class="col-sm-9">
-							<input type="text" name = "naslov" class="form-control">
+							<input th:value="${param.naslov}" type="text" name = "naslov" class="form-control">
 						</div>
 					</div>
 					<!-- Druga Kolona -->
 					<div class="form-group row mb-3">
 						<label class="col-sm-3 col-form-label">Inventarski Broj:</label>
 						<div class="col-sm-9">
-							<input type="text" name = "inventarskiBroj" class="form-control">
+							<input th:value="${param.inventarskiBroj}" type="text" name = "inventarskiBroj" class="form-control">
 						</div>
 					</div>
 				</div>
@@ -84,14 +84,14 @@
 					<div class="form-group row mb-3">
 						<label class="col-sm-3 col-form-label">Datum Pozajmice:</label>
 						<div class="col-sm-9">
-							<input type="text" name = "datumPozajmice" class="form-control">
+							<input th:value="${param.datumPozajmice}" type="text" name = "datumPozajmice" class="form-control">
 						</div>
 					</div>
 					<!-- Druga Kolona -->
 					<div class="form-group row mb-3">
 						<label class="col-sm-3 col-form-label">Datum Vracanja:</label>
 						<div class="col-sm-9">
-							<input type="text" name = "datumVracanja" class="form-control">
+							<input th:value="${param.datumVracanja}" type="text" name = "datumVracanja" class="form-control">
 						</div>
 					</div>
 				</div>

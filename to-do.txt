@@ -25,6 +25,8 @@
 			- ako member ima vise od 5 filmova da nije moguce da pozajmi vise dok ne vrati, --------- napravljeno
 			- I promeni datum vracanja Filma u DATE
 			- Treba proveriti da li su svi podaci u redu prilikom pozajmljivanja filma try catch, if...
-
+			
+			- PREBACI INPUTE U DATE
+			- NE MOZES DA PRETRAZIS VISE OD JEDNE STVARI U FORMI
 
 			

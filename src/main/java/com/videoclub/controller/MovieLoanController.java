@@ -48,16 +48,16 @@ public class MovieLoanController {
 	                                        @RequestParam(value = "datumVracanja", required = false) LocalDate datumVracanja) {
 
 		  List<MovieLoan> results = new ArrayList<>();
-		    if (ime != null) {
+		    if (ime != null && !ime.isEmpty()) {
 		        results.addAll(movieLoanService.searchByIme(ime));
 		    }
-		    if (prezime != null) {
+		    if (prezime != null && !prezime.isEmpty()) {
 		        results.addAll(movieLoanService.searchByPrezime(prezime));
 		    }
-		    if (naslov != null) {
+		    if (naslov != null && !naslov.isEmpty()) {
 		        results.addAll(movieLoanService.searchByNaslov(naslov));
-		    }if(inventarskiBroj != null) {
-		        results.addAll(movieLoanService.searchByInventarskiBroj( inventarskiBroj));
+		    }if(inventarskiBroj != null ) {
+		        results.addAll(movieLoanService.searchByInventarskiBroj(inventarskiBroj.toString()));
 		    }if(datumPozajmice != null) {
 		        results.addAll(movieLoanService.searchByDatumPozajmice( datumPozajmice));
 		    }if(datumVracanja != null) {

@@ -53,37 +53,36 @@ public class MovieController {
 	}
 	
 	@GetMapping("/filtriraniFilmovi")
-	public String filterMovie(@RequestParam("kriterijum") String kriterijum,
-			@RequestParam("vrednost") String vrednost,  
+	public String filterMovie(@RequestParam("naslov") String naslov,
+			@RequestParam("zanr") String zanr,
+			@RequestParam("inventarskiBroj") String inventarskiBroj,
+			@RequestParam("jezik") String jezik,
+			@RequestParam("godinaSnimanja") String godinaSnimanja,
+			@RequestParam("starosnoOgranicenje") String starosnoOgranicenje,
 			Model model) {
-				List<Movie> filteredMovies;
-				
-				 switch (kriterijum) {
-			        case "naslov":
-			            filteredMovies = service.findMoviesByNaslov(vrednost);
-			            break;
-			        case "zanr":
-			            filteredMovies = service.findMoviesByZanr(vrednost);
-			            break;
-			        case "inventarskiBroj":
-			            filteredMovies = service.findMoviesByInventarskomBroju(Integer.parseInt(vrednost));
-			            break;
-			        case "jezik":
-			            filteredMovies = service.findMoviesByJezik(vrednost);
-			            break;
-			        case "godinaSnimanja":
-			            filteredMovies = service.findMoviesByGodinaSnimanja(vrednost);
-			            break;
-			        case "starosnoOgranicenje":
-			            filteredMovies = service.findMoviesByMpaRating(Integer.parseInt(vrednost));
-			            break;
-			        default:
-			            filteredMovies = service.listAllMovies();
-			            break;
-			    }
-				model.addAttribute("movieLists",filteredMovies);
+
+			List<Movie> filteredMovie;
+
+			if(naslov != null && !naslov.isEmpty()) {
+				filteredMovie = service.findMoviesByNaslov(naslov);
+			} else if (zanr != null && !zanr.isEmpty()) {
+				filteredMovie = service.findMoviesByZanr(zanr);
+	        } else if (inventarskiBroj != null && !inventarskiBroj.isEmpty()) {
+	        	filteredMovie = service.findMoviesByInventarskomBroju(Integer.parseInt(inventarskiBroj));
+	        } else if(jezik != null && !jezik.isEmpty()) {
+	        	filteredMovie= service.findMoviesByJezik(jezik);   	
+	        }  else if(godinaSnimanja != null && !godinaSnimanja.isEmpty()) {
+	        	filteredMovie= service.findMoviesByGodinaSnimanja(godinaSnimanja);   	
+	        } else if(starosnoOgranicenje != null && !starosnoOgranicenje.isEmpty()) {
+	        	filteredMovie= service.findMoviesByMpaRating(Integer.parseInt(starosnoOgranicenje));   	
+	        } 
+	        else {
+	        	filteredMovie = service.listAllMovies();
+	        } {
+			
+				model.addAttribute("movieLists",filteredMovie);
 				return "movie";
 	}
 	
-	
+	}	
 }

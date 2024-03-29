@@ -39,25 +39,69 @@
 	  <div class="text-center">
     	<h1 class="text-center">Pregled Filmova</h1>
    		<a class="h4" href="/movie/addMovie">Dodaj Film</a>
-   		
-   		<form action="/filtriraniFilmovi" method="get">
-    		<select id = "pretragaFilmaSelect" class="form-select mb-3" name="kriterijum">
-				<option id = "pretragaFilmaSelect-1" selected>Svi Filmovi</option>	   
-				<option value="naslov">Naslov</option>
-				<option value="zanr">Zanr</option>
-				<option value="inventarskiBroj">Inventarski Broj</option>			
-				<option value="jezik">Jezik</option>			
-				<option value="godinaSnimanja">Godina Snimanja</option>
-				<option value="starosnoOgranicenje">Starosno Ogranicenje</option>
-			</select>
-		
-			
-				<input type="text" placeholder="Svi Filmovi" id = "pretragaFilmaInput" name = "vrednost">
-				<button class="btn btn-primary m-2" type="submit">Pretrazi</button>
-		  </form>
-   		
+
 
 		
+   		<form action="/filtriraniFilmovi" method="get" style="max-width: 700px; margin: 0 auto;">
+			   
+			<div class="border  rounded p-3 mt-5 mb-5">
+				
+
+				<!-- Prva kolona -->
+				<div class="form-group row mb-3">
+					<label class="col-sm-3 col-form-label">Naslov:</label>
+					<div class="col-sm-9">
+						<input th:value="${param.naslov}" name="naslov" type="text"   class="form-control">
+					</div>
+				</div>
+				
+				<!-- Druga kolona -->
+				<div class="form-group row mb-3">
+					<label class="col-sm-3 col-form-label">Zanr:</label>
+					<div class="col-sm-9">
+						<input th:value="${param.zanr}"  type="text"  name="zanr"  class="form-control">
+					</div>
+				</div>
+				
+				<!-- Treca kolona -->
+				<div class="form-group row mb-3">
+					<label class="col-sm-3 col-form-label">Inventarski Broj:</label>
+					<div class="col-sm-9">
+						<input th:value="${param.inventarskiBroj}" type="text"  name="inventarskiBroj"  class="form-control">
+					</div>
+				</div>
+				
+				<!-- Cetvrta kolona -->
+				<div class="form-group row mb-3">
+					<label class="col-sm-3 col-form-label">Jezik:</label>
+					<div class="col-sm-9">
+						<input th:value="${param.jezik}" name="jezik" type="text"   class="form-control">
+					</div>
+				</div>
+				
+					
+				<!-- Cetvrta kolona -->
+				<div class="form-group row mb-3">
+					<label class="col-sm-3 col-form-label">Godina Snimanja:</label>
+					<div class="col-sm-9">
+						<input th:value="${param.godinaSnimanja}" name="godinaSnimanja" type="text"   class="form-control">
+					</div>
+				</div>
+				
+					
+				<!-- Cetvrta kolona -->
+				<div class="form-group row mb-3">
+					<label class="col-sm-3 col-form-label">Starosno Ogranicenje:</label>
+					<div class="col-sm-9">
+						<input th:value="${param.starosnoOgranicenje}" name="starosnoOgranicenje" type="text"   class="form-control">
+					</div>
+				</div>
+				
+		
+				<button class="btn btn-primary m-2" type="submit">Pretrazi</button>
+			</div>	   
+		</form>
+   		
     	<div class="mt-3 container-fluid text-center">
 			<div>
 				<table class="table table-bordered">
