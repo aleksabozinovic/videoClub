@@ -1,13 +1,14 @@
 package com.videoclub.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.stereotype.Service;
 
-import com.videoclub.member.Member;
 import com.videoclub.movie.Movie;
 import com.videoclub.repository.MovieRepository;
 
@@ -20,7 +21,8 @@ import jakarta.persistence.criteria.Root;
 @Configurable
 public class MovieService {
 	@Autowired private MovieRepository repo;
-	@Autowired private EntityManager entitiyManager;
+	@Autowired private EntityManager entityManager;
+
 
 	
 		public List<Movie> listAllMovies(){
@@ -42,45 +44,73 @@ public class MovieService {
 			
 		}
 		
-		public List<Movie> findMoviesByNaslov(String naslov){
+//		public List<Movie> findMoviesByNaslov(String naslov){
+//
+//			CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
+//			Root<Movie> movie = cq.from(Movie.class);
+//			cq.select(movie).where(cb.like(movie.get("naslov"), naslov  + "%"));
+//			return entitiyManager.createQuery(cq).getResultList();
+//		}
+//	public List<Movie> findMoviesByZanr(String zanr){
+//		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
+//		CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+//		Root<Movie> movie = cq.from(Movie.class);
+//		cq.select(movie).where(cb.like(movie.get("zanr"), zanr  + "%"));
+//		return entitiyManager.createQuery(cq).getResultList();
+//
+//	}
+	public List<Movie> findMoviesByInventarskomBroju(Integer inventarskiBroj){
+		String inventarskiBrojString = String.valueOf(inventarskiBroj);
+		return repo.findByInventarskiBrojLike(inventarskiBrojString);
+}
+//	public List<Movie> findMoviesByJezik(String jezik){
+//		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
+//		CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+//		Root<Movie> movie = cq.from(Movie.class);
+//		cq.select(movie).where(cb.like(movie.get("jezik"), jezik  + "%"));
+//		return entitiyManager.createQuery(cq).getResultList();
+//	}
+//
+//	public List<Movie> findMoviesByGodinaSnimanja(String godinaSnimanja){
+//		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
+//		CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+//		Root<Movie> movie = cq.from(Movie.class);
+//		cq.select(movie).where(cb.like(movie.get("godinaSnimanja"), godinaSnimanja  + "%"));
+//		return entitiyManager.createQuery(cq).getResultList();
+//
+//	}
+//
+//	public List<Movie> findMoviesByMpaRating(Integer mpaRating){
+//		String mpaRatingString = String.valueOf(mpaRating);
+//		return repo.findByMpaRatingLike(mpaRatingString);		}
 
-			CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
+//	CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+
+	public List<Movie> findByCriteria(
+			String naslov, String zanr, String jezik, Integer godinaSnimanja, Integer inventarskiBroj, Integer mpaRating
+	){
+			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
 			Root<Movie> movie = cq.from(Movie.class);
-			cq.select(movie).where(cb.like(movie.get("naslov"), naslov  + "%"));
-			return entitiyManager.createQuery(cq).getResultList();
-		}
-		public List<Movie> findMoviesByZanr(String zanr){
-			CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-			CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
-			Root<Movie> movie = cq.from(Movie.class);
-			cq.select(movie).where(cb.like(movie.get("zanr"), zanr  + "%"));
-			return entitiyManager.createQuery(cq).getResultList();
-			
-		}
-		public List<Movie> findMoviesByInventarskomBroju(Integer inventarskiBroj){
-			 String inventarskiBrojString = String.valueOf(inventarskiBroj);
-			    return repo.findByInventarskiBrojLike(inventarskiBrojString);		
-				}
-		public List<Movie> findMoviesByJezik(String jezik){
-			CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-			CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
-			Root<Movie> movie = cq.from(Movie.class);
-			cq.select(movie).where(cb.like(movie.get("jezik"), jezik  + "%"));
-			return entitiyManager.createQuery(cq).getResultList();
-		}
-		
-		public List<Movie> findMoviesByGodinaSnimanja(String godinaSnimanja){
-			CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-			CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
-			Root<Movie> movie = cq.from(Movie.class);
-			cq.select(movie).where(cb.like(movie.get("godinaSnimanja"), godinaSnimanja  + "%"));
-			return entitiyManager.createQuery(cq).getResultList();		
-			
-		}
-		
-		public List<Movie> findMoviesByMpaRating(Integer mpaRating){
-		    String mpaRatingString = String.valueOf(mpaRating);
-		    return repo.findByMpaRatingLike(mpaRatingString);		}
+
+			List<Predicate> predicates = new ArrayList<>();
+
+			if(naslov != null && !naslov.isEmpty())
+				predicates.add(cb.like(movie.get("naslov"), naslov + "%"));
+			if(zanr != null && !zanr.isEmpty())
+				predicates.add(cb.like(movie.get("zanr"), zanr + "%"));
+			if(jezik != null && !jezik.isEmpty())
+				predicates.add(cb.like(movie.get("jezik"), jezik + "%"));
+			if(godinaSnimanja != null)
+			    predicates.add(cb.like(cb.function("str", String.class, movie.get("godinaSnimanja")), "%" + godinaSnimanja + "%"));
+			if(inventarskiBroj != null)
+			    predicates.add(cb.like(cb.function("str", String.class, movie.get("inventarskiBroj")), "%" + inventarskiBroj + "%"));
+			if(mpaRating != null)
+			    predicates.add(cb.like(cb.function("str", String.class, movie.get("mpaRating")), "%" + mpaRating + "%"));
+
+			cq.select(movie).where(cb.and(predicates.toArray(new Predicate[0])));
+
+			return entityManager.createQuery(cq).getResultList();
+	}
 	
 }

@@ -46,23 +46,27 @@ public class MovieLoanController {
 	                                        @RequestParam(value = "inventarskiBroj", required = false) Integer inventarskiBroj,
 	                                        @RequestParam(value = "datumPozajmice", required = false) LocalDate datumPozajmice,
 	                                        @RequestParam(value = "datumVracanja", required = false) LocalDate datumVracanja) {
-
+		  
+		    
 		  List<MovieLoan> results = new ArrayList<>();
-		    if (ime != null && !ime.isEmpty()) {
-		        results.addAll(movieLoanService.searchByIme(ime));
-		    }
-		    if (prezime != null && !prezime.isEmpty()) {
-		        results.addAll(movieLoanService.searchByPrezime(prezime));
-		    }
-		    if (naslov != null && !naslov.isEmpty()) {
-		        results.addAll(movieLoanService.searchByNaslov(naslov));
-		    }if(inventarskiBroj != null ) {
-		        results.addAll(movieLoanService.searchByInventarskiBroj(inventarskiBroj.toString()));
-		    }if(datumPozajmice != null) {
-		        results.addAll(movieLoanService.searchByDatumPozajmice( datumPozajmice));
-		    }if(datumVracanja != null) {
-		        results.addAll(movieLoanService.searchByDatumVracanja(datumVracanja));
-		    }
+		    if (ime != null || prezime != null || naslov != null || inventarskiBroj != null || datumPozajmice != null || datumVracanja != null) {
+		        results = movieLoanService.findByCriteria(ime, prezime, naslov, inventarskiBroj, datumPozajmice, datumVracanja);
+		    }				  
+//		    if (ime != null && !ime.isEmpty()) {
+//		        results.addAll(movieLoanService.searchByIme(ime));
+//		    }
+//		    if (prezime != null && !prezime.isEmpty()) {
+//		        results.addAll(movieLoanService.searchByPrezime(prezime));
+//		    }
+//		    if (naslov != null && !naslov.isEmpty()) {
+//		        results.addAll(movieLoanService.searchByNaslov(naslov));
+//		    }if(inventarskiBroj != null ) {
+//		        results.addAll(movieLoanService.searchByInventarskiBroj(inventarskiBroj.toString()));
+//		    }if(datumPozajmice != null) {
+//		        results.addAll(movieLoanService.searchByDatumPozajmice( datumPozajmice));
+//		    }if(datumVracanja != null) {
+//		        results.addAll(movieLoanService.searchByDatumVracanja(datumVracanja));
+//		    }
 		    model.addAttribute("results", results);
 
 	        return "pregledEvidencije";

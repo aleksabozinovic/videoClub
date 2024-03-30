@@ -53,31 +53,16 @@ public class MemberController {
 	}
 	
 	@GetMapping("/filtriraniMemberi")
-	public String filtriranjeMembera(@RequestParam("ime") String ime,
-			@RequestParam("prezime") String prezime,
-			@RequestParam("brojTelefona") String brojTelefona,
-			@RequestParam("brojClanskeKarte") String brojClanskeKarte,
+	public String filtriranjeMembera(
+			@RequestParam(value = "ime", required = false) String ime,
+			@RequestParam(value = "prezime", required = false) String prezime,
+			@RequestParam(value = "brojTelefona", required = false) String brojTelefona,
+				@RequestParam(value = "brojClanskeKarte", required = false) Integer brojClanskeKarte,
 			Model model) {
 
-			List<Member> filteredMembers;
-
-			if(ime != null && !ime.isEmpty()) {
-				filteredMembers = service.findByIme(ime);
-			} else if (prezime != null && !prezime.isEmpty()) {
-	            filteredMembers = service.findByPrezime(prezime);
-	        } else if (brojTelefona != null && !brojTelefona.isEmpty()) {
-	            filteredMembers = service.findByBrojTelefona(brojTelefona);
-	        } else if(brojClanskeKarte != null && !brojClanskeKarte.isEmpty()) {
-	        	filteredMembers= service.findByBrojClanskeKarte(Integer.parseInt(brojClanskeKarte));
-	        	
-	        } 
-	        else {
-	            filteredMembers = service.listOfAllMembers();
-	        }
-			
-			
-			model.addAttribute("memberList", filteredMembers);
-			return "member";
+		List<Member> filteredMembers = service.findByCriteria(ime, prezime, brojTelefona, brojClanskeKarte);
+		model.addAttribute("memberList", filteredMembers);
+		return "member";
 		
 	}
 

@@ -9,7 +9,7 @@
   <body>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
 	    <div class="container">
-	        <a class="navbar-brand" href="#">Video Club</a>
+	        <a class="navbar-brand" th:href="@{/index}">Video Club</a>
 	        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	            <span class="navbar-toggler-icon"></span>
 	        </button>
@@ -84,14 +84,14 @@
 					<div class="form-group row mb-3">
 						<label class="col-sm-3 col-form-label">Datum Pozajmice:</label>
 						<div class="col-sm-9">
-							<input th:value="${param.datumPozajmice}" type="text" name = "datumPozajmice" class="form-control">
+							<input th:value="${param.datumPozajmice}" type="date" name = "datumPozajmice" class="form-control">
 						</div>
 					</div>
 					<!-- Druga Kolona -->
 					<div class="form-group row mb-3">
 						<label class="col-sm-3 col-form-label">Datum Vracanja:</label>
 						<div class="col-sm-9">
-							<input th:value="${param.datumVracanja}" type="text" name = "datumVracanja" class="form-control">
+							<input th:value="${param.datumVracanja}" type="date" name = "datumVracanja" class="form-control">
 						</div>
 					</div>
 				</div>

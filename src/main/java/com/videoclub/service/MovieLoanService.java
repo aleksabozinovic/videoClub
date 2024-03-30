@@ -1,6 +1,7 @@
 package com.videoclub.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,12 @@ import com.videoclub.repository.MemberRepository;
 import com.videoclub.repository.MovieLoanRepository;
 import com.videoclub.repository.MovieRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+
 @Service
 public class MovieLoanService {
 	@Autowired
@@ -25,7 +32,8 @@ public class MovieLoanService {
 	@Autowired
 	private MovieRepository movieRepo;
 	
-	
+	@Autowired private EntityManager entityManager;
+
 	// Prikazivanje Filmova
 	public List<Movie> listMovies(){
 
@@ -136,4 +144,36 @@ public class MovieLoanService {
 	public List<MovieLoan> searchByDatumVracanja(LocalDate datumVracanja) {
 	    return movieLoanRepo.findByDatumVracanjaFilma(datumVracanja);
 	}
+	
+	public List<MovieLoan> findByCriteria(String ime, String prezime, String naslov, Integer inventarskiBroj, LocalDate datumPozajmice, LocalDate datumVracanja) {
+	    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+	    CriteriaQuery<MovieLoan> cq = cb.createQuery(MovieLoan.class);
+	    Root<MovieLoan> movieLoan = cq.from(MovieLoan.class);
+
+	    List<Predicate> predicates = new ArrayList<>();
+
+	    if (ime != null && !ime.isEmpty()) {
+	        predicates.add(cb.like(movieLoan.get("member").get("ime"), ime + "%"));
+	    }
+	    if (prezime != null && !prezime.isEmpty()) {
+	        predicates.add(cb.like(movieLoan.get("member").get("prezime"), prezime + "%"));
+	    }
+	    if (naslov != null && !naslov.isEmpty()) {
+	        predicates.add(cb.like(movieLoan.get("movie").get("naslov"), naslov + "%"));
+	    }
+	    if (inventarskiBroj != null) {
+		    predicates.add(cb.like(cb.function("str", String.class, movieLoan.get("movie").get("inventarskiBroj")), "%" + inventarskiBroj + "%"));
+	    }
+	    if (datumPozajmice != null) {
+	        predicates.add(cb.equal(movieLoan.get("datumIznajmljivanjaFilma"), datumPozajmice));
+	    }
+	    if (datumVracanja != null) {
+	        predicates.add(cb.equal(movieLoan.get("datumVracanjaFilma"), datumVracanja));
+	    }
+
+	    cq.select(movieLoan).where(cb.and(predicates.toArray(new Predicate[0])));
+
+	    return entityManager.createQuery(cq).getResultList();
+	}
+
 }

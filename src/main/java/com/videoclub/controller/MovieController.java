@@ -54,35 +54,17 @@ public class MovieController {
 	
 	@GetMapping("/filtriraniFilmovi")
 	public String filterMovie(@RequestParam("naslov") String naslov,
-			@RequestParam("zanr") String zanr,
-			@RequestParam("inventarskiBroj") String inventarskiBroj,
-			@RequestParam("jezik") String jezik,
-			@RequestParam("godinaSnimanja") String godinaSnimanja,
-			@RequestParam("starosnoOgranicenje") String starosnoOgranicenje,
+			@RequestParam(value = "zanr" , required = false) String zanr,
+			@RequestParam(value = "inventarskiBroj" , required = false) Integer inventarskiBroj,
+			@RequestParam(value = "jezik" , required = false) String jezik,
+			@RequestParam(value = "godinaSnimanja" , required = false) Integer godinaSnimanja,
+			@RequestParam(value = "starosnoOgranicenje" , required = false) Integer starosnoOgranicenje,
 			Model model) {
 
-			List<Movie> filteredMovie;
+		List<Movie> filteredMovie = service.findByCriteria(naslov, zanr, jezik, godinaSnimanja, inventarskiBroj, starosnoOgranicenje);
 
-			if(naslov != null && !naslov.isEmpty()) {
-				filteredMovie = service.findMoviesByNaslov(naslov);
-			} else if (zanr != null && !zanr.isEmpty()) {
-				filteredMovie = service.findMoviesByZanr(zanr);
-	        } else if (inventarskiBroj != null && !inventarskiBroj.isEmpty()) {
-	        	filteredMovie = service.findMoviesByInventarskomBroju(Integer.parseInt(inventarskiBroj));
-	        } else if(jezik != null && !jezik.isEmpty()) {
-	        	filteredMovie= service.findMoviesByJezik(jezik);   	
-	        }  else if(godinaSnimanja != null && !godinaSnimanja.isEmpty()) {
-	        	filteredMovie= service.findMoviesByGodinaSnimanja(godinaSnimanja);   	
-	        } else if(starosnoOgranicenje != null && !starosnoOgranicenje.isEmpty()) {
-	        	filteredMovie= service.findMoviesByMpaRating(Integer.parseInt(starosnoOgranicenje));   	
-	        } 
-	        else {
-	        	filteredMovie = service.listAllMovies();
-	        } {
-			
-				model.addAttribute("movieLists",filteredMovie);
-				return "movie";
+		model.addAttribute("movieLists",filteredMovie);
+		return "movie";
 	}
-	
-	}	
+
 }

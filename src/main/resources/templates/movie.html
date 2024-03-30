@@ -9,7 +9,7 @@
 	  
 	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
 	    <div class="container">
-	        <a class="navbar-brand" href="#">Video Club</a>
+	        <a class="navbar-brand" th:href="@{/index}">Video Club</a>
 	        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 	            <span class="navbar-toggler-icon"></span>
 	        </button>
@@ -84,7 +84,10 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Godina Snimanja:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.godinaSnimanja}" name="godinaSnimanja" type="text"   class="form-control">
+						<select id="godinaDropdown" name="godinaSnimanja" h:value="${param.godinaSnimanja}" class="form-control"></select>
+
+						<!--  <input th:value="${param.godinaSnimanja}" name="godinaSnimanja" type="text"   class="form-control">
+						-->
 					</div>
 				</div>
 				
@@ -153,6 +156,19 @@
 				inputField.setAttribute('placeholder', `Pretraga po ${selectedValue}`);
 				if(selectField.selectedIndex==0) inputField.setAttribute('placeholder', `Svi Filmovi`);			
 			})
+		</script>
+		
+		<script>
+			  const select = document.getElementById('godinaDropdown');
+			  const currentYear = new Date().getFullYear();
+			  const earliestYear = 1900;
+			  
+			  for (let year = currentYear; year >= earliestYear; year--) {
+			    const option = document.createElement('option');
+			    option.value = year;
+			    option.textContent = year;
+			    select.appendChild(option);
+			  }
 		</script>
   </body>
 </html>
