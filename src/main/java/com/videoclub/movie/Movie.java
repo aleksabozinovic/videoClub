@@ -11,58 +11,58 @@ import jakarta.persistence.Table;
 @Table(name = "movie")
 public class Movie {
 
-	@Column(nullable = false, name = "naslov")
-	private String naslov;
+	@Column(nullable = false, name = "title")
+	private String title;
 	
-	@Column(name = "zanr")
-	private String zanr;
+	@Column(name = "genre")
+	private String genre;
 
 	@Column(name= "mpa_rating")
 	private Integer mpaRating;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "inventarski_broj")
-	private Integer inventarskiBroj;
+	@Column(name = "inventory_number")
+	private Integer inventoryNumber;
 	
-	@Column(name= "opis")
-	private String opis;
+	@Column(name= "description")
+	private String description;
 	
-	@Column(name= "jezik")
-	private String jezik;
+	@Column(name= "language")
+	private String language;
 	
-	@Column(name= "godina_snimanja")
-	private String godinaSnimanja;
+	@Column(name= "year_of_recording")
+	private String yearOfRecording;
 	
-	@Column(name= "datum_unosa")
-	private String datumUnosa;
+	@Column(name= "date_of_entry")
+	private String dateOfEntry;
 	
 	
-	public Movie(String naslov, String zanr, Integer mpaRating, Integer inventarskiBroj, String opis, String jezik,
-			String godinaSnimanja, String datumUnosa) {
+	public Movie(String title, String genre, Integer mpaRating, Integer inventoryNumber, String description, String language,
+			String yearOfRecording, String dateOfEntry) {
 		super();
-		this.naslov = naslov;
-		this.zanr = zanr;
+		this.title = title;
+		this.genre = genre;
 		this.mpaRating = mpaRating;
-		this.inventarskiBroj = inventarskiBroj;
-		this.opis = opis;
-		this.jezik = jezik;
-		this.godinaSnimanja = godinaSnimanja;
-		this.datumUnosa = datumUnosa;
+		this.inventoryNumber = inventoryNumber;
+		this.description = description;
+		this.language = language;
+		this.yearOfRecording = yearOfRecording;
+		this.dateOfEntry = dateOfEntry;
 	}
 
 
-	public Movie(String naslov, String zanr, Integer mpaRating, String opis, String jezik, String godinaSnimanja,
-                 String datumUnosa) {
+	public Movie(String title, String genre, Integer mpaRating, String description, String language, String yearOfRecording,
+                 String dateOfEntry) {
 		super();
-		this.naslov = naslov;
-		this.zanr = zanr;
+		this.title = title;
+		this.genre = genre;
 
         this.mpaRating = mpaRating;
-		this.opis = opis;
-		this.jezik = jezik;
-		this.godinaSnimanja = godinaSnimanja;
-		this.datumUnosa = datumUnosa;
+		this.description = description;
+		this.language = language;
+		this.yearOfRecording = yearOfRecording;
+		this.dateOfEntry = dateOfEntry;
 	}
 
 
@@ -70,23 +70,24 @@ public class Movie {
 		// TODO Auto-generated constructor stub
 	}
 
-	public String getNaslov() {
-		return naslov;
+
+	public String getTitle() {
+		return title;
 	}
 
 
-	public void setNaslov(String naslov) {
-		this.naslov = naslov;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 
-	public String getZanr() {
-		return zanr;
+	public String getGenre() {
+		return genre;
 	}
 
 
-	public void setZanr(String zanr) {
-		this.zanr = zanr;
+	public void setGenre(String genre) {
+		this.genre = genre;
 	}
 
 
@@ -95,67 +96,61 @@ public class Movie {
 	}
 
 
-	public void setMpaRating(Integer d) {
-		this.mpaRating = d;
+	public void setMpaRating(Integer mpaRating) {
+		this.mpaRating = mpaRating;
 	}
 
 
-	public Integer getInventarskiBroj() {
-		return inventarskiBroj;
+	public Integer getInventoryNumber() {
+		return inventoryNumber;
 	}
 
 
-	public void setInventarskiBroj(Integer inventarskiBroj) {
-		this.inventarskiBroj = inventarskiBroj;
+	public void setInventoryNumber(Integer inventoryNumber) {
+		this.inventoryNumber = inventoryNumber;
 	}
 
 
-	public String getOpis() {
-		return opis;
+	public String getDescription() {
+		return description;
 	}
 
 
-	public void setOpis(String opis) {
-		this.opis = opis;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 
-	public String getJezik() {
-		return jezik;
+	public String getLanguage() {
+		return language;
 	}
 
 
-	public void setJezik(String jezik) {
-		this.jezik = jezik;
+	public void setLanguage(String language) {
+		this.language = language;
 	}
 
 
-	public String getGodinaSnimanja() {
-		return godinaSnimanja;
+	public String getYearOfRecording() {
+		return yearOfRecording;
 	}
 
 
-	public void setGodinaSnimanja(String godinaSnimanja) {
-		this.godinaSnimanja = godinaSnimanja;
+	public void setYearOfRecording(String yearOfRecording) {
+		this.yearOfRecording = yearOfRecording;
 	}
 
 
-	public String getDatumUnosa() {
-		return datumUnosa;
+	public String getDateOfEntry() {
+		return dateOfEntry;
 	}
 
 
-	public void setDatumUnosa(String datumUnosa) {
-		this.datumUnosa = datumUnosa;
+	public void setDateOfEntry(String dateOfEntry) {
+		this.dateOfEntry = dateOfEntry;
 	}
 
 
-	@Override
-	public String toString() {
-		return "Movie [naslov=" + naslov + ", zanr=" + zanr + ", mpaRating=" + mpaRating + ", inventarskiBroj="
-				+ inventarskiBroj + ", opis=" + opis + ", jezik=" + jezik + ", godinaSnimanja=" + godinaSnimanja
-				+ ", datumUnosa=" + datumUnosa + "]";
-	}
 
 
 }

@@ -22,7 +22,7 @@
 	                    <a class="nav-link" th:href="@{/member}">Pregled svih članova</a>
 	                </li>
 	                <li class="nav-item">
-	                    <a class="nav-link" th:href="@{/pregledEvidencije}">Pregled Evidencije</a>
+	                    <a class="nav-link" th:href="@{/recordReview}">Pregled Evidencije</a>
 	                </li>
 	                <li class="nav-item">
 	                    <a class="nav-link" th:href="@{/movieLoan}">Pozajmljivanje Filmova</a>
@@ -58,19 +58,19 @@
 					<tbody>
 						<th:block th:each="movie : ${movieLists}" >
 							<tr>
-								<td class="align-middle">[[${movie.inventarskiBroj}]]</td>
-								<td class="align-middle">[[${movie.naslov}]]</td>
-								<td class="align-middle">[[${movie.zanr}]]</td>
+								<td class="align-middle">[[${movie.inventoryNumber}]]</td>
+								<td class="align-middle">[[${movie.title}]]</td>
+								<td class="align-middle">[[${movie.genre}]]</td>
 								<td class="align-middle">[[${movie.mpaRating}]]+</td>
-								<td class="align-middle" style="width: 600px;">[[${movie.opis}]]</td>
-								<td class="align-middle">[[${movie.jezik}]]</td>
-								<td class="align-middle">[[${movie.godinaSnimanja}]]</td>
-								<td class="align-middle">[[${movie.datumUnosa}]]</td>
+								<td class="align-middle" style="width: 600px;">[[${movie.description}]]</td>
+								<td class="align-middle">[[${movie.language}]]</td>
+								<td class="align-middle">[[${movie.yearOfRecording}]]</td>
+								<td class="align-middle">[[${movie.dateOfEntry}]]</td>
 								
 								<td class="align-middle">
 <!--									<a th:href="@{'/movie/edit/' + ${movie.inventarskiBroj}}" class="h6 mr-3">Prepravka</a>
 -->
-								<a class="h6 " th:href = "@{'/movieLoan/pozajmljivanje/' + ${movie.inventarskiBroj}}">Pozajmi</a>
+								<a class="h6 " th:href = "@{'/movieLoan/pozajmljivanje/' + ${movie.inventoryNumber}}">Pozajmi</a>
 								</td>
 							</tr>
 						</th:block>

@@ -12,7 +12,7 @@
 	  
 	  
 	  <div th:each="movie : ${movieLists}">
-		  <h1 class="text-center mb-3">Pozajmljivanje Filma [[${movie.naslov}]] <!-- Ime filma dodaj --></h1>
+		  <h1 class="text-center mb-3">Pozajmljivanje Filma [[${movie.title}]] <!-- Ime filma dodaj --></h1>
 		  
 	  </div>
 	  
@@ -21,7 +21,7 @@
 	  			Isto tako ako ima 5 knjiga ne moze da pozajmi vise dok ne vrati
 	  			 -->
 	  
-	 	 		<form method="post" th:action="@{'/movieLoan/pozajmljivanje/' + ${inventarskiBroj}}" style="max-width: 700px; margin: 0 auto;">
+	 	 		<form method="post" th:action="@{'/movieLoan/pozajmljivanje/' + ${inventoryNumber}}" style="max-width: 700px; margin: 0 auto;">
 					  
 			  		<!-- Pretraga po memberu -->
 					<div>
@@ -29,26 +29,26 @@
 						<div class="form-group row mb-3">
 							<label class="col-sm-3 col-form-label">Ime:</label>
 							<div class="col-sm-9">
-								<input type="text" name = "ime" class="form-control">
+								<input type="text" name = "name" class="form-control">
 							</div>
 						</div>
 						<!-- Druga Kolona -->
 						<div class="form-group row mb-3">
 							<label class="col-sm-3 col-form-label">Prezime:</label>
 							<div class="col-sm-9">
-								<input type="text" name = "prezime" class="form-control">
+								<input type="text" name = "lastName" class="form-control">
 							</div>
 						</div>
 						<!-- Druga Kolona -->
 						<div class="form-group row mb-3">
 							<label class="col-sm-3 col-form-label">Broj Clanske Karte:</label>
 							<div class="col-sm-9">
-								<input type="text" name = "brojClanskeKarte" class="form-control">
+								<input type="text" name = "memberCardNumber" class="form-control">
 							</div>
 						</div>
 					</div>
 					
-					    <input type="hidden" name="inventarskiBroj" th:value="${inventarskiBroj}">
+					    <input type="hidden" name="inventoryNumber" th:value="${inventoryNumber}">
 
 					
 					 <button type="submit" class="btn btn-primary m-2">Pozajmi</button>

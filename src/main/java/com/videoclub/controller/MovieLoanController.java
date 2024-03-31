@@ -38,43 +38,28 @@ public class MovieLoanController {
 	private MovieService movieService;
 
 	
-	  @GetMapping("/pregledEvidencije")
-	    public String showPregledEvidencije(Model model,
-	                                        @RequestParam(value = "ime", required = false) String ime,
-	                                        @RequestParam(value = "prezime", required = false) String prezime,
-	                                        @RequestParam(value = "naslov", required = false) String naslov,
-	                                        @RequestParam(value = "inventarskiBroj", required = false) Integer inventarskiBroj,
-	                                        @RequestParam(value = "datumPozajmice", required = false) LocalDate datumPozajmice,
-	                                        @RequestParam(value = "datumVracanja", required = false) LocalDate datumVracanja) {
+	  @GetMapping("/recordReview")
+	    public String showRecordReview(Model model,
+	                                        @RequestParam(value = "name", required = false) String name,
+	                                        @RequestParam(value = "lastName", required = false) String lastName,
+	                                        @RequestParam(value = "title", required = false) String title,
+	                                        @RequestParam(value = "inventoryNumber", required = false) Integer inventoryNumber,
+	                                        @RequestParam(value = "movieRentalDate", required = false) LocalDate movieRentalDate,
+	                                        @RequestParam(value = "movieReturnDate", required = false) LocalDate movieReturnDate) {
 		  
 		    
 		  List<MovieLoan> results = new ArrayList<>();
-		    if (ime != null || prezime != null || naslov != null || inventarskiBroj != null || datumPozajmice != null || datumVracanja != null) {
-		        results = movieLoanService.findByCriteria(ime, prezime, naslov, inventarskiBroj, datumPozajmice, datumVracanja);
+		    if (name != null || lastName != null || title != null || inventoryNumber != null || movieRentalDate != null || movieReturnDate != null) {
+		        results = movieLoanService.findByCriteria(name, lastName, title, inventoryNumber, movieRentalDate, movieReturnDate);
 		    }				  
-//		    if (ime != null && !ime.isEmpty()) {
-//		        results.addAll(movieLoanService.searchByIme(ime));
-//		    }
-//		    if (prezime != null && !prezime.isEmpty()) {
-//		        results.addAll(movieLoanService.searchByPrezime(prezime));
-//		    }
-//		    if (naslov != null && !naslov.isEmpty()) {
-//		        results.addAll(movieLoanService.searchByNaslov(naslov));
-//		    }if(inventarskiBroj != null ) {
-//		        results.addAll(movieLoanService.searchByInventarskiBroj(inventarskiBroj.toString()));
-//		    }if(datumPozajmice != null) {
-//		        results.addAll(movieLoanService.searchByDatumPozajmice( datumPozajmice));
-//		    }if(datumVracanja != null) {
-//		        results.addAll(movieLoanService.searchByDatumVracanja(datumVracanja));
-//		    }
 		    model.addAttribute("results", results);
 
-	        return "pregledEvidencije";
+	        return "recordReviews";
 	    }
 
 	
 	@GetMapping("/movieLoan")
-	public String showPozajmljivanjeFilmova(Model model) {
+	public String showLoanedMovies(Model model) {
 		List<Movie> movieLists = movieLoanService.listMovies();
 		
 
@@ -82,28 +67,28 @@ public class MovieLoanController {
 		return "movieLoan";
 		}
 	
-	@GetMapping("/movieLoan/pozajmljivanje/{inventarskiBroj}")
-	public String pozajmljivanjeFilmova(
-			@PathVariable String inventarskiBroj, Model model) {
+	@GetMapping("/movieLoan/loan/{inventoryNumber}")
+	public String borrowMovies(
+			@PathVariable String inventoryNumber, Model model) {
 		
-		List<Movie> movies = movieService.findMoviesByInventarskomBroju(Integer.parseInt(inventarskiBroj));
+		List<Movie> movies = movieService.findMoviesByInventoryNumber(Integer.parseInt(inventoryNumber));
 		model.addAttribute("movieLists",movies);
 		return "loanForm";
 	}
 	
-	@PostMapping("/movieLoan/pozajmljivanje/{inventarskiBroj}")
-	public ResponseEntity<String> sacuvajPozajmljivanje(
-			@RequestParam String ime,
-			@RequestParam String prezime,
-			@RequestParam Integer brojClanskeKarte,
-			@PathVariable Integer inventarskiBroj
+	@PostMapping("/movieLoan/loan/{inventoryNumber}")
+	public ResponseEntity<String> saveBorrowedMovies(
+			@RequestParam String name,
+			@RequestParam String lastName,
+			@RequestParam Integer memberCardNumber,
+			@PathVariable Integer inventoryNumber
 			){
 		
 
 		
 		// napraviti proveru da da li se poklapaju ime, prezime i inventarski broj pre nego sto se sacuva
 		try {
-			movieLoanService.saveManyToMany(inventarskiBroj, brojClanskeKarte,ime , prezime);
+			movieLoanService.saveManyToMany(inventoryNumber, memberCardNumber,name , lastName);
 			String htmlResponse = "<html><body><h1>Podaci su uspešno sačuvani.</h1>"
 					+ "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
 
@@ -117,25 +102,25 @@ public class MovieLoanController {
 	}
 
 	@GetMapping("/movieReturn")
-	public String showVracanjeFilmova() {
+	public String showReturnedMovies() {
 		return "movieReturn";
 		}
 	@PostMapping("/movieReturn")
-	public ResponseEntity<String> vracanjeFilmova(
-			@RequestParam String ime,
-			@RequestParam String prezime,
-			@RequestParam Integer brojClanskeKarte,
-			@RequestParam Integer inventarskiBroj	
+	public ResponseEntity<String> movieReturn(
+			@RequestParam String name,
+			@RequestParam String lastName,
+			@RequestParam Integer memberCardNumber,
+			@RequestParam Integer inventoryNumber	
 			) {
-		List<Member> member = memberRepo.findByBrojClanskeKarte(brojClanskeKarte);
-		List<Member> memberIme = memberRepo.findByIme(ime);
-		List<Member> memberPrezime = memberRepo.findByPrezime(prezime);
-		List<Movie> movie = movieRepo.findByInventarskiBroj(inventarskiBroj);
+		List<Member> member = memberRepo.findByMemberCardNumber(memberCardNumber);
+		List<Member> memberIme = memberRepo.findByName(name);
+		List<Member> memberPrezime = memberRepo.findByLastName(lastName);
+		List<Movie> movie = movieRepo.findByInventoryNumber(memberCardNumber);
 
 		// napraviti proveru da da li se poklapaju ime, prezime i inventarski broj pre nego sto se sacuva
 		try {
 		    if(!member.isEmpty() && !movie.isEmpty() && !memberIme.isEmpty() && !memberPrezime.isEmpty()) {
-		        movieLoanService.vracanjeFilmova(inventarskiBroj, brojClanskeKarte, ime , prezime);
+		        movieLoanService.movieReturn(inventoryNumber, memberCardNumber, name , lastName);
 		        String htmlResponse = "<html><body><h1>Uspesno ste vratili film.</h1>"
 		                + "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
 

@@ -24,29 +24,29 @@ public class MovieLoan {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer Id;
 	
-	private LocalDate datumIznajmljivanjaFilma;
-	private LocalDate datumVracanjaFilma;
+	private LocalDate movieRentalDate;
+	private LocalDate movieReturnDate;
 	
 	@ManyToOne
-	@JoinColumn(name="inventarski_broj", referencedColumnName = "inventarski_broj")
+	@JoinColumn(name="inventory_number", referencedColumnName = "inventory_number")
 	private Movie movie;
 
 	@ManyToOne
-	@JoinColumn(name="broj_clanske_karte", referencedColumnName = "broj_clanske_karte")
+	@JoinColumn(name="member_card_number", referencedColumnName = "member_card_number")
 	private Member member;
 	
 
 	
-	// Uzima inventarski broj
-	public Integer getInventarskiBroj() {
-		return movie != null ? movie.getInventarskiBroj() : null;
-	}
-	
-	
-//	Dodavanje iz drugih klasa
-	public String getNazivFilma() {
-		return movie != null ? movie.getNaslov() : null;
-	}
+//	// Uzima inventarski broj
+//	public Integer getInventarskiBroj() {
+//		return movie != null ? movie.getInventoryNumber() : null;
+//	}
+//	
+//	
+////	Dodavanje iz drugih klasa
+//	public String getNazivFilma() {
+//		return movie != null ? movie.getTitle() : null;
+//	}
 
 	
 	public Member getMember() {
@@ -69,32 +69,36 @@ public class MovieLoan {
 
 
 
-	public MovieLoan(LocalDate datumIznajmljivanjaFilma, LocalDate datumVracanjaFilma) {
+	public MovieLoan(LocalDate movieRentalDate, LocalDate movieReturnDate) {
 		super();
-		this.datumIznajmljivanjaFilma = datumIznajmljivanjaFilma;
-		this.datumVracanjaFilma = datumVracanjaFilma;
+		this.movieRentalDate = movieRentalDate;
+		this.movieReturnDate = movieReturnDate;
 	}
 
 	public MovieLoan() {
 
 	}
 
-	
-	public LocalDate getDatumIznajmljivanjaFilma() {
-		return datumIznajmljivanjaFilma;
+
+	public LocalDate getMovieRentalDate() {
+		return movieRentalDate;
 	}
 
-	public void setDatumIznajmljivanjaFilma(LocalDate datumIznajmljivanjaFilma) {
-		this.datumIznajmljivanjaFilma = datumIznajmljivanjaFilma;
+
+	public void setMovieRentalDate(LocalDate movieRentalDate) {
+		this.movieRentalDate = movieRentalDate;
 	}
 
-	public LocalDate getDatumVracanjaFilma() {
-		return datumVracanjaFilma;
+
+	public LocalDate getMovieReturnDate() {
+		return movieReturnDate;
 	}
 
-	public void setDatumVracanjaFilma(LocalDate datumVracanjaFilma) {
-		this.datumVracanjaFilma = datumVracanjaFilma;
+
+	public void setMovieReturnDate(LocalDate movieReturnDate) {
+		this.movieReturnDate = movieReturnDate;
 	}
+
 
 
 	

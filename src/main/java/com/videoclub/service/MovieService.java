@@ -33,61 +33,25 @@ public class MovieService {
 			repo.save(movie);
 		}
 		
-		public Movie editMovie(Integer inventarskiBroj){
-			Optional<Movie> result = repo.findById(inventarskiBroj);
+		public Movie editMovie(Integer inventoryNumber){
+			Optional<Movie> result = repo.findById(inventoryNumber);
 			return result.get();			
 		}
 
-		public void deleteMovie(Integer inventarskiBroj) {
+		public void deleteMovie(Integer inventoryNumber) {
 
-			repo.deleteById(inventarskiBroj);
+			repo.deleteById(inventoryNumber);
 			
 		}
 		
-//		public List<Movie> findMoviesByNaslov(String naslov){
-//
-//			CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-//			Root<Movie> movie = cq.from(Movie.class);
-//			cq.select(movie).where(cb.like(movie.get("naslov"), naslov  + "%"));
-//			return entitiyManager.createQuery(cq).getResultList();
-//		}
-//	public List<Movie> findMoviesByZanr(String zanr){
-//		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-//		CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
-//		Root<Movie> movie = cq.from(Movie.class);
-//		cq.select(movie).where(cb.like(movie.get("zanr"), zanr  + "%"));
-//		return entitiyManager.createQuery(cq).getResultList();
-//
-//	}
-	public List<Movie> findMoviesByInventarskomBroju(Integer inventarskiBroj){
-		String inventarskiBrojString = String.valueOf(inventarskiBroj);
-		return repo.findByInventarskiBrojLike(inventarskiBrojString);
-}
-//	public List<Movie> findMoviesByJezik(String jezik){
-//		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-//		CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
-//		Root<Movie> movie = cq.from(Movie.class);
-//		cq.select(movie).where(cb.like(movie.get("jezik"), jezik  + "%"));
-//		return entitiyManager.createQuery(cq).getResultList();
-//	}
-//
-//	public List<Movie> findMoviesByGodinaSnimanja(String godinaSnimanja){
-//		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-//		CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
-//		Root<Movie> movie = cq.from(Movie.class);
-//		cq.select(movie).where(cb.like(movie.get("godinaSnimanja"), godinaSnimanja  + "%"));
-//		return entitiyManager.createQuery(cq).getResultList();
-//
-//	}
-//
-//	public List<Movie> findMoviesByMpaRating(Integer mpaRating){
-//		String mpaRatingString = String.valueOf(mpaRating);
-//		return repo.findByMpaRatingLike(mpaRatingString);		}
 
-//	CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
+	public List<Movie> findMoviesByInventoryNumber(Integer inventoryNumber){
+		String inventaryNumberString = String.valueOf(inventoryNumber);
+		return repo.findByInventoryNumberLike(inventaryNumberString);
+}
 
 	public List<Movie> findByCriteria(
-			String naslov, String zanr, String jezik, Integer godinaSnimanja, Integer inventarskiBroj, Integer mpaRating
+			String title, String genre, String language, Integer yearOfRecording, Integer inventoryNumber, Integer mpaRating
 	){
 			CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 			CriteriaQuery<Movie> cq = cb.createQuery(Movie.class);
@@ -95,16 +59,16 @@ public class MovieService {
 
 			List<Predicate> predicates = new ArrayList<>();
 
-			if(naslov != null && !naslov.isEmpty())
-				predicates.add(cb.like(movie.get("naslov"), naslov + "%"));
-			if(zanr != null && !zanr.isEmpty())
-				predicates.add(cb.like(movie.get("zanr"), zanr + "%"));
-			if(jezik != null && !jezik.isEmpty())
-				predicates.add(cb.like(movie.get("jezik"), jezik + "%"));
-			if(godinaSnimanja != null)
-			    predicates.add(cb.like(cb.function("str", String.class, movie.get("godinaSnimanja")), "%" + godinaSnimanja + "%"));
-			if(inventarskiBroj != null)
-			    predicates.add(cb.like(cb.function("str", String.class, movie.get("inventarskiBroj")), "%" + inventarskiBroj + "%"));
+			if(title != null && !title.isEmpty())
+				predicates.add(cb.like(movie.get("title"), title + "%"));
+			if(genre != null && !genre.isEmpty())
+				predicates.add(cb.like(movie.get("genre"), genre + "%"));
+			if(language != null && !language.isEmpty())
+				predicates.add(cb.like(movie.get("jezik"), language + "%"));
+			if(yearOfRecording != null)
+			    predicates.add(cb.like(cb.function("str", String.class, movie.get("yearOfRecording")), "%" + yearOfRecording + "%"));
+			if(inventoryNumber != null)
+			    predicates.add(cb.like(cb.function("str", String.class, movie.get("inventoryNumber")), "%" + inventoryNumber + "%"));
 			if(mpaRating != null)
 			    predicates.add(cb.like(cb.function("str", String.class, movie.get("mpaRating")), "%" + mpaRating + "%"));
 

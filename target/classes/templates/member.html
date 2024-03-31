@@ -22,7 +22,7 @@
 	                    <a class="nav-link" th:href="@{/member}">Pregled svih članova</a>
 	                </li>
 	                <li class="nav-item">
-	                    <a class="nav-link" th:href="@{/pregledEvidencije}">Pregled Evidencije</a>
+	                    <a class="nav-link" th:href="@{/recordReview}">Pregled Evidencije</a>
 	                </li>
 	                <li class="nav-item">
 	                    <a class="nav-link" th:href="@{/movieLoan}">Pozajmljivanje Filmova</a>
@@ -40,7 +40,7 @@
 		<h1 class="text-center">Pregled Membera</h1>
    		<a class="h4" href="/member/addMember">Dodaj Membera</a>
    		
-   		<form action="/filtriraniMemberi" method="get" style="max-width: 700px; margin: 0 auto;">
+   		<form action="/filteredMembers" method="get" style="max-width: 700px; margin: 0 auto;">
 			   
 			<div class="border  rounded p-3 mt-5 mb-5">
 				<h4>Pretraga Membera</h4>
@@ -49,7 +49,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Ime:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.ime}" name="ime" type="text"   class="form-control">
+						<input th:value="${param.name}" name="name" type="text"   class="form-control">
 					</div>
 				</div>
 				
@@ -57,7 +57,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Prezime:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.prezime}"  type="text"  name="prezime"  class="form-control">
+						<input th:value="${param.lastName}"  type="text"  name="lastName"  class="form-control">
 					</div>
 				</div>
 				
@@ -65,7 +65,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Broj Telefona:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.brojTelefona}"  type="text"  name="brojTelefona"  class="form-control">
+						<input th:value="${param.phoneNumber}"  type="text"  name="phoneNumber"  class="form-control">
 					</div>
 				</div>
 				
@@ -73,7 +73,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Broj Clanske Karte:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.brojClanskeKarte}" name="brojClanskeKarte" type="text"   class="form-control">
+						<input th:value="${param.memberCardNumber}" name="memberCardNumber" type="text"   class="form-control">
 					</div>
 				</div>
 				
@@ -99,16 +99,16 @@
 					<tbody>
 						<th:block th:each="member : ${memberList}" >
 							<tr>
-								<td class="align-middle">[[${member.brojClanskeKarte}]]</td>
-								<td class="align-middle">[[${member.ime}]]</td>
-								<td class="align-middle">[[${member.prezime}]]</td>
-								<td class="align-middle">[[${member.godinaRodjenja}]]</td>
-								<td class="align-middle">[[${member.brojTelefona}]]</td>
-								<td class="align-middle">[[${member.mail}]]</td>
+								<td class="align-middle">[[${member.memberCardNumber}]]</td>
+								<td class="align-middle">[[${member.name}]]</td>
+								<td class="align-middle">[[${member.lastName}]]</td>
+								<td class="align-middle">[[${member.birthYear}]]</td>
+								<td class="align-middle">[[${member.phoneNumber}]]</td>
+								<td class="align-middle">[[${member.email}]]</td>
 								
 								<td class="align-middle">
-									<a th:href="@{'/member/edit/' + ${member.brojClanskeKarte}}" class="h6 mr-3">Prepravka</a>
-									<a th:href="@{'/member/delete/' + ${member.brojClanskeKarte}}" class="h6">Brisanje</a>
+									<a th:href="@{'/member/edit/' + ${member.memberCardNumber}}" class="h6 mr-3">Prepravka</a>
+									<a th:href="@{'/member/delete/' + ${member.memberCardNumber}}" class="h6">Brisanje</a>
 								</td>
 							</tr>
 						</th:block>

@@ -32,9 +32,9 @@ public class MovieController {
 		return "addMovie";
 	}
 	
-	@GetMapping("/movie/edit/{inventarskiBroj}")
-	public String editMovie(@PathVariable Integer inventarskiBroj ,Model model) {
-		Movie movie = service.editMovie(inventarskiBroj);
+	@GetMapping("/movie/edit/{inventoryNumber}")
+	public String editMovie(@PathVariable Integer inventoryNumber ,Model model) {
+		Movie movie = service.editMovie(inventoryNumber);
 		model.addAttribute("movie", movie);
 		return "addMovie";
 	}
@@ -46,22 +46,22 @@ public class MovieController {
 		return "redirect:/movie";
 	}
 	
-	@GetMapping("/movie/delete/{inventarskiBroj}")
-	public String deleteMovie(@PathVariable Integer inventarskiBroj) {
-		service.deleteMovie(inventarskiBroj);
+	@GetMapping("/movie/delete/{inventoryNumber}")
+	public String deleteMovie(@PathVariable Integer inventoryNumber) {
+		service.deleteMovie(inventoryNumber);
 		return "redirect:/movie";
 	}
 	
-	@GetMapping("/filtriraniFilmovi")
-	public String filterMovie(@RequestParam("naslov") String naslov,
-			@RequestParam(value = "zanr" , required = false) String zanr,
-			@RequestParam(value = "inventarskiBroj" , required = false) Integer inventarskiBroj,
-			@RequestParam(value = "jezik" , required = false) String jezik,
-			@RequestParam(value = "godinaSnimanja" , required = false) Integer godinaSnimanja,
-			@RequestParam(value = "starosnoOgranicenje" , required = false) Integer starosnoOgranicenje,
+	@GetMapping("/filteredMovies")
+	public String filterMovie(@RequestParam("title") String title,
+			@RequestParam(value = "genre" , required = false) String genre,
+			@RequestParam(value = "inventoryNumber" , required = false) Integer inventoryNumber,
+			@RequestParam(value = "language" , required = false) String language,
+			@RequestParam(value = "yearOfRecording" , required = false) Integer yearOfRecording,
+			@RequestParam(value = "mpaRating" , required = false) Integer mpaRating,
 			Model model) {
 
-		List<Movie> filteredMovie = service.findByCriteria(naslov, zanr, jezik, godinaSnimanja, inventarskiBroj, starosnoOgranicenje);
+		List<Movie> filteredMovie = service.findByCriteria(title, genre, language, yearOfRecording, inventoryNumber, mpaRating);
 
 		model.addAttribute("movieLists",filteredMovie);
 		return "movie";

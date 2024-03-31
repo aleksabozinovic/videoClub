@@ -14,98 +14,77 @@ import jakarta.persistence.Table;
 public class Member {
 	
 	
-	private String ime;
-	private String prezime;
-	private Integer godinaRodjenja;
-	private String brojTelefona;
-	private String mail;
+	private String name;
+	private String lastName;
+	private Integer birthYear;
+	private String phoneNumber;
+	private String email;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "broj_clanske_karte")
-	private Integer brojClanskeKarte;
+	@Column(name = "member_card_number")
+	private Integer memberCardNumber;
 	
 
-	public Member(String ime, String prezime, Integer godinaRodjenja, String brojTelefona, String mail,
+	public Member(String name, String lastName, Integer birthYear, String phoneNumber, String email,
 			Integer brojClanskeKarte) {
-		this.ime = ime;
-		this.prezime = prezime;
-		this.godinaRodjenja = godinaRodjenja;
-		this.brojTelefona = brojTelefona;
-		this.mail = mail;
-		this.brojClanskeKarte = brojClanskeKarte;
+		this.name = name;
+		this.lastName = lastName;
+		this.birthYear = birthYear;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
+		this.memberCardNumber = brojClanskeKarte;
 	}	
-	public Member(String ime, String prezime, Integer godinaRodjenja, String brojTelefona, String mail) {
-		this.ime = ime;
-		this.prezime = prezime;
-		this.godinaRodjenja = godinaRodjenja;
-		this.brojTelefona = brojTelefona;
-		this.mail = mail;
+	public Member(String name, String lastName, Integer birthYear, String phoneNumber, String email) {
+		this.name = name;
+		this.lastName = lastName;
+		this.birthYear = birthYear;
+		this.phoneNumber = phoneNumber;
+		this.email = email;
 	}
 
 
 	public Member() {
 		
 	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getLastName() {
+		return lastName;
+	}
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+	public Integer getBirthYear() {
+		return birthYear;
+	}
+	public void setBirthYear(Integer birthYear) {
+		this.birthYear = birthYear;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public Integer getMemberCardNumber() {
+		return memberCardNumber;
+	}
+	public void setMemberCardNumber(Integer memberCardNumber) {
+		this.memberCardNumber = memberCardNumber;
+	}
 	
-	public String getIme() {
-		return ime;
-	}
 
-
-	public void setIme(String ime) {
-		this.ime = ime;
-	}
-
-
-	public String getPrezime() {
-		return prezime;
-	}
-
-
-	public void setPrezime(String prezime) {
-		this.prezime = prezime;
-	}
-
-
-	public Integer getGodinaRodjenja() {
-		return godinaRodjenja;
-	}
-
-
-	public void setGodinaRodjenja(Integer godinaRodjenja) {
-		this.godinaRodjenja = godinaRodjenja;
-	}
-
-
-	public String getBrojTelefona() {
-		return brojTelefona;
-	}
-
-
-	public void setBrojTelefona(String brojTelefona) {
-		this.brojTelefona = brojTelefona;
-	}
-
-
-	public String getMail() {
-		return mail;
-	}
-
-
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
-
-
-	public Integer getBrojClanskeKarte() {
-		return brojClanskeKarte;
-	}
-
-
-	public void setBrojClanskeKarte(Integer brojClanskeKarte) {
-		this.brojClanskeKarte = brojClanskeKarte;
-	}
 
 
 }

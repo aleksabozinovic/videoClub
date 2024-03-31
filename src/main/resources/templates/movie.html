@@ -22,7 +22,7 @@
 	                    <a class="nav-link" th:href="@{/member}">Pregled svih članova</a>
 	                </li>
 	                <li class="nav-item">
-	                    <a class="nav-link" th:href="@{/pregledEvidencije}">Pregled Evidencije</a>
+	                    <a class="nav-link" th:href="@{/recordReview}">Pregled Evidencije</a>
 	                </li>
 	                <li class="nav-item">
 	                    <a class="nav-link" th:href="@{/movieLoan}">Pozajmljivanje Filmova</a>
@@ -42,7 +42,7 @@
 
 
 		
-   		<form action="/filtriraniFilmovi" method="get" style="max-width: 700px; margin: 0 auto;">
+   		<form action="/filteredMovies" method="get" style="max-width: 700px; margin: 0 auto;">
 			   
 			<div class="border  rounded p-3 mt-5 mb-5">
 				
@@ -51,7 +51,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Naslov:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.naslov}" name="naslov" type="text"   class="form-control">
+						<input th:value="${param.title}" name="title" type="text"   class="form-control">
 					</div>
 				</div>
 				
@@ -59,7 +59,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Zanr:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.zanr}"  type="text"  name="zanr"  class="form-control">
+						<input th:value="${param.genre}"  type="text"  name="genre"  class="form-control">
 					</div>
 				</div>
 				
@@ -67,7 +67,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Inventarski Broj:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.inventarskiBroj}" type="text"  name="inventarskiBroj"  class="form-control">
+						<input th:value="${param.inventoryNumber}" type="text"  name="inventoryNumber"  class="form-control">
 					</div>
 				</div>
 				
@@ -75,7 +75,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Jezik:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.jezik}" name="jezik" type="text"   class="form-control">
+						<input th:value="${param.language}" name="language" type="text"   class="form-control">
 					</div>
 				</div>
 				
@@ -84,7 +84,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Godina Snimanja:</label>
 					<div class="col-sm-9">
-						<select id="godinaDropdown" name="godinaSnimanja" h:value="${param.godinaSnimanja}" class="form-control"></select>
+						<select id="yearDropdown" name="yearOfRecording" h:value="${param.yearOfRecording}" class="form-control"></select>
 
 						<!--  <input th:value="${param.godinaSnimanja}" name="godinaSnimanja" type="text"   class="form-control">
 						-->
@@ -125,18 +125,18 @@
 					<tbody>
 						<th:block th:each="movie : ${movieLists}" >
 							<tr>
-								<td class="align-middle">[[${movie.inventarskiBroj}]]</td>
-								<td class="align-middle">[[${movie.naslov}]]</td>
-								<td class="align-middle">[[${movie.zanr}]]</td>
+								<td class="align-middle">[[${movie.inventoryNumber}]]</td>
+								<td class="align-middle">[[${movie.title}]]</td>
+								<td class="align-middle">[[${movie.genre}]]</td>
 								<td class="align-middle">[[${movie.mpaRating}]]+</td>
-								<td class="align-middle" style="width: 600px;">[[${movie.opis}]]</td>
-								<td class="align-middle">[[${movie.jezik}]]</td>
-								<td class="align-middle">[[${movie.godinaSnimanja}]]</td>
-								<td class="align-middle">[[${movie.datumUnosa}]]</td>
+								<td class="align-middle" style="width: 600px;">[[${movie.description}]]</td>
+								<td class="align-middle">[[${movie.language}]]</td>
+								<td class="align-middle">[[${movie.yearOfRecording}]]</td>
+								<td class="align-middle">[[${movie.dateOfEntry}]]</td>
 								
 								<td class="align-middle">
-									<a th:href="@{'/movie/edit/' + ${movie.inventarskiBroj}}" class="h6 mr-3">Prepravka</a>
-									<a th:href="@{'/movie/delete/' + ${movie.inventarskiBroj}}" class="h6">Brisanje</a>
+									<a th:href="@{'/movie/edit/' + ${movie.inventoryNumber}}" class="h6 mr-3">Prepravka</a>
+									<a th:href="@{'/movie/delete/' + ${movie.inventoryNumber}}" class="h6">Brisanje</a>
 								</td>
 							</tr>
 						</th:block>
@@ -159,9 +159,9 @@
 		</script>
 		
 		<script>
-			  const select = document.getElementById('godinaDropdown');
+			  const select = document.getElementById('yearDropdown');
 			  const currentYear = new Date().getFullYear();
-			  const earliestYear = 1900;
+			  const earliestYear = 1940;
 			  
 			  for (let year = currentYear; year >= earliestYear; year--) {
 			    const option = document.createElement('option');

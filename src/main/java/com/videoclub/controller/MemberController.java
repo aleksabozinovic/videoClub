@@ -39,28 +39,28 @@ public class MemberController {
 		return "addMember";
 	}
 	
-	@GetMapping("/member/edit/{brojClanskeKarte}")
-	public String editMember(@PathVariable Integer brojClanskeKarte, Model model) {
-		Member member = service.editMember(brojClanskeKarte);
+	@GetMapping("/member/edit/{memberCardNumber}")
+	public String editMember(@PathVariable Integer memberCardNumber, Model model) {
+		Member member = service.editMember(memberCardNumber);
 		model.addAttribute("member" , member);
 		return "addMember";
 	}
 	
-	@RequestMapping("/member/delete/{brojClanskeKarte}")
-	public String deleteMember(@PathVariable Integer brojClanskeKarte, Model model) {
-		service.deleteMember(brojClanskeKarte);
+	@RequestMapping("/member/delete/{memberCardNumber}")
+	public String deleteMember(@PathVariable Integer memberCardNumber, Model model) {
+		service.deleteMember(memberCardNumber);
 		return "redirect:/member";
 	}
 	
-	@GetMapping("/filtriraniMemberi")
-	public String filtriranjeMembera(
-			@RequestParam(value = "ime", required = false) String ime,
-			@RequestParam(value = "prezime", required = false) String prezime,
-			@RequestParam(value = "brojTelefona", required = false) String brojTelefona,
-				@RequestParam(value = "brojClanskeKarte", required = false) Integer brojClanskeKarte,
+	@GetMapping("/filteredMembers")
+	public String filteredMembers(
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "lastName", required = false) String lastName,
+			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
+				@RequestParam(value = "memberCardNumber", required = false) Integer memberCardNumber,
 			Model model) {
 
-		List<Member> filteredMembers = service.findByCriteria(ime, prezime, brojTelefona, brojClanskeKarte);
+		List<Member> filteredMembers = service.findByCriteria(name, lastName, phoneNumber, memberCardNumber);
 		model.addAttribute("memberList", filteredMembers);
 		return "member";
 		

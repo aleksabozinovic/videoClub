@@ -32,36 +32,36 @@ public class MemberService {
 	public void save(Member member) {
 		repo.save(member);
 	}
-	public Member editMember(Integer brojClanskeKarte) {
-		Optional<Member> result= repo.findById(brojClanskeKarte);
+	public Member editMember(Integer memberCardNumber) {
+		Optional<Member> result= repo.findById(memberCardNumber);
 		return result.get();	
 	}
 	
 	
 	
-	public void deleteMember(Integer brojClanskeKarte) {
-		repo.deleteById(brojClanskeKarte);
+	public void deleteMember(Integer memberCardNumber) {
+		repo.deleteById(memberCardNumber);
 	}
 
 
-	public List<Member> findByCriteria(String ime, String prezime, String brojTelefona, Integer brojClanskeKarte) {
+	public List<Member> findByCriteria(String name, String lastName, String phoneNumber, Integer memberCardNumber) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Member> cq = cb.createQuery(Member.class);
 		Root<Member> member = cq.from(Member.class);
 
 		List<Predicate> predicates = new ArrayList<>();
 
-		if (ime != null && !ime.isEmpty()) {
-			predicates.add(cb.like(member.get("ime"), ime + "%"));
+		if (name != null && !name.isEmpty()) {
+			predicates.add(cb.like(member.get("name"), name + "%"));
 		}
-		if (prezime != null && !prezime.isEmpty()) {
-			predicates.add(cb.like(member.get("prezime"), prezime + "%"));
+		if (lastName != null && !lastName.isEmpty()) {
+			predicates.add(cb.like(member.get("lastName"), lastName + "%"));
 		}
-		if (brojTelefona != null && !brojTelefona.isEmpty()) {
-			predicates.add(cb.like(member.get("brojTelefona"), brojTelefona + "%"));
+		if (phoneNumber != null && !phoneNumber.isEmpty()) {
+			predicates.add(cb.like(member.get("phoneNumber"), phoneNumber + "%"));
 		}
-		if (brojClanskeKarte != null) {
-			predicates.add(cb.equal(member.get("brojClanskeKarte"), brojClanskeKarte));
+		if (memberCardNumber != null) {
+			predicates.add(cb.equal(member.get("memberCardNumber"), memberCardNumber));
 		}
 
 		cq.select(member).where(cb.and(predicates.toArray(new Predicate[0])));
@@ -69,25 +69,4 @@ public class MemberService {
 		return entityManager.createQuery(cq).getResultList();
 	}
 
-	
-//	public List<Member> findByPrezime(String prezime){
-//		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-//		CriteriaQuery<Member> cq = cb.createQuery(Member.class);
-//		Root<Member> member = cq.from(Member.class);
-//		cq.select(member).where(cb.like(member.get("prezime"), prezime  + "%"));
-//		return entitiyManager.createQuery(cq).getResultList();
-//	}
-//
-//	public List<Member> findByBrojTelefona(String brojTelefona){
-//		CriteriaBuilder cb = entitiyManager.getCriteriaBuilder();
-//		CriteriaQuery<Member> cq = cb.createQuery(Member.class);
-//		Root<Member> member = cq.from(Member.class);
-//		cq.select(member).where(cb.like(member.get("brojTelefona"), brojTelefona  + "%"));
-//		return entitiyManager.createQuery(cq).getResultList();
-//	}
-//
-//	public List<Member> findByBrojClanskeKarte(Integer brojClanskeKarte){
-//	    String brojClanskeKarteString = String.valueOf(brojClanskeKarte);
-//	    return repo.findByBrojClanskeKarteLike(brojClanskeKarteString);
-//	}
 }

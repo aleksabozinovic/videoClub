@@ -39,7 +39,7 @@ public class MovieLoanService {
 
 		List<Movie> allMovies = movieRepo.findAll();
 		List<Movie> borrowedMovies = movieLoanRepo.findAll().stream()
-				.filter(loan -> loan.getDatumVracanjaFilma() == null)
+				.filter(loan -> loan.getMovieReturnDate() == null)
 				.map(MovieLoan::getMovie)
 				.collect(Collectors.toList());	
 		
@@ -50,13 +50,13 @@ public class MovieLoanService {
 
 
 
-	public void saveManyToMany(Integer inventarskiBroj, Integer brojClanskeKarte, String ime, String prezime) throws Exception {
+	public void saveManyToMany(Integer inventoryNumber, Integer memberCardNumber, String name, String lastName) throws Exception {
 		
-		List<Movie> movieList = movieRepo.findByInventarskiBroj(inventarskiBroj);
-		List<Member> memberList = memberRepo.findByBrojClanskeKarteAndImeAndPrezime(brojClanskeKarte, ime, prezime);
+		List<Movie> movieList = movieRepo.findByInventoryNumber(inventoryNumber);
+		List<Member> memberList = memberRepo.findByMemberCardNumberAndNameAndLastName(memberCardNumber, name, lastName);
 		
 		
-	    int brojAktivnihPozajmica = movieLoanRepo.countByMemberBrojClanskeKarteAndDatumVracanjaFilmaIsNull(brojClanskeKarte);
+	    int brojAktivnihPozajmica = movieLoanRepo.countByMemberMemberCardNumberAndMovieReturnDateIsNull(memberCardNumber);
 	    if(brojAktivnihPozajmica > 4){
 			 throw new Exception("Ne sme se pozajmiti vise od 5 filmova");
 		 }
@@ -74,11 +74,11 @@ public class MovieLoanService {
 
 		// Kreiranje datuma kada je member pozajmio film
 		LocalDate danasnjiDatum = LocalDate.now();
-		movieLoan.setDatumIznajmljivanjaFilma(danasnjiDatum);
+		movieLoan.setMovieRentalDate(danasnjiDatum);
 
 		int currentYear = danasnjiDatum.getYear();
 		// Provera godina
-		if (currentYear -  member.getGodinaRodjenja() < movie.getMpaRating()) {
+		if (currentYear -  member.getBirthYear() < movie.getMpaRating()) {
 			throw new Exception("Član nema dovoljno godina za iznajmljivanje ovog filma.");
         }
 		
@@ -87,10 +87,10 @@ public class MovieLoanService {
 	}
 	
 	// Vracanje Filma
-	public void vracanjeFilmova(Integer inventarskiBroj, Integer brojClanskeKarte, String ime, String prezime) throws Exception {
+	public void movieReturn(Integer inventoryNumber, Integer memberCardNumber, String name, String lastName) throws Exception {
 		
 
-	    List<MovieLoan> movieLoans = movieLoanRepo.findByMovieInventarskiBrojAndMemberBrojClanskeKarte(inventarskiBroj, brojClanskeKarte);		
+	    List<MovieLoan> movieLoans = movieLoanRepo.findByMovieInventoryNumberAndMemberMemberCardNumber(inventoryNumber, memberCardNumber);		
 	    
 		// Provera da li je film pronadjen
 	    if (!movieLoans.isEmpty()) {
@@ -99,9 +99,9 @@ public class MovieLoanService {
 	        
 	        for (MovieLoan movieLoan : movieLoans) {
 	            // Provera da li se ime i prezime poklapaju sa članom koji vraća film
-	            if (movieLoan.getMember().getIme().equals(ime) && movieLoan.getMember().getPrezime().equals(prezime)) {
+	            if (movieLoan.getMember().getName().equals(name) && movieLoan.getMember().getLastName().equals(lastName)) {
 	                // Ažuriranje podataka o datumu vraćanja filma
-	                movieLoan.setDatumVracanjaFilma(danasnjiDatum);
+	                movieLoan.setMovieReturnDate(danasnjiDatum);
 	                // Čuvanje ažuriranih podataka
 	                movieLoanRepo.save(movieLoan);
 	                filmVracen = true;
@@ -122,53 +122,32 @@ public class MovieLoanService {
 
 
 	
-	public List<MovieLoan> searchByIme(String ime) {
-	    return movieLoanRepo.findByMember_ImeStartingWith(ime);
-	}
 
-	public List<MovieLoan> searchByPrezime(String prezime) {
-	    return movieLoanRepo.findByMember_PrezimeStartingWith(prezime);
-	}
-
-	public List<MovieLoan> searchByNaslov(String naslov) {
-	    return movieLoanRepo.findByMovie_NaslovStartingWith(naslov);
-	}
-
-	public List<MovieLoan> searchByInventarskiBroj(String inventarskiBroj) {
-	    return movieLoanRepo.findByInventarskiBrojAsString( inventarskiBroj.toString());
-	}
-	public List<MovieLoan> searchByDatumPozajmice(LocalDate datumPozajmice) {
-	    return movieLoanRepo.findByDatumIznajmljivanjaFilma(datumPozajmice);
-	}
-
-	public List<MovieLoan> searchByDatumVracanja(LocalDate datumVracanja) {
-	    return movieLoanRepo.findByDatumVracanjaFilma(datumVracanja);
-	}
 	
-	public List<MovieLoan> findByCriteria(String ime, String prezime, String naslov, Integer inventarskiBroj, LocalDate datumPozajmice, LocalDate datumVracanja) {
+	public List<MovieLoan> findByCriteria(String name, String lastName, String title, Integer inventoryNumber, LocalDate movieRentalDate, LocalDate movieReturnDate) {
 	    CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 	    CriteriaQuery<MovieLoan> cq = cb.createQuery(MovieLoan.class);
 	    Root<MovieLoan> movieLoan = cq.from(MovieLoan.class);
 
 	    List<Predicate> predicates = new ArrayList<>();
 
-	    if (ime != null && !ime.isEmpty()) {
-	        predicates.add(cb.like(movieLoan.get("member").get("ime"), ime + "%"));
+	    if (name != null && !name.isEmpty()) {
+	        predicates.add(cb.like(movieLoan.get("member").get("name"), name + "%"));
 	    }
-	    if (prezime != null && !prezime.isEmpty()) {
-	        predicates.add(cb.like(movieLoan.get("member").get("prezime"), prezime + "%"));
+	    if (lastName != null && !lastName.isEmpty()) {
+	        predicates.add(cb.like(movieLoan.get("member").get("lastName"), lastName + "%"));
 	    }
-	    if (naslov != null && !naslov.isEmpty()) {
-	        predicates.add(cb.like(movieLoan.get("movie").get("naslov"), naslov + "%"));
+	    if (title != null && !title.isEmpty()) {
+	        predicates.add(cb.like(movieLoan.get("movie").get("title"), title + "%"));
 	    }
-	    if (inventarskiBroj != null) {
-		    predicates.add(cb.like(cb.function("str", String.class, movieLoan.get("movie").get("inventarskiBroj")), "%" + inventarskiBroj + "%"));
+	    if (inventoryNumber != null) {
+		    predicates.add(cb.like(cb.function("str", String.class, movieLoan.get("movie").get("inventoryNumber")), "%" + inventoryNumber + "%"));
 	    }
-	    if (datumPozajmice != null) {
-	        predicates.add(cb.equal(movieLoan.get("datumIznajmljivanjaFilma"), datumPozajmice));
+	    if (movieRentalDate != null) {
+	        predicates.add(cb.equal(movieLoan.get("movieRentalDate"), movieRentalDate));
 	    }
-	    if (datumVracanja != null) {
-	        predicates.add(cb.equal(movieLoan.get("datumVracanjaFilma"), datumVracanja));
+	    if (movieReturnDate != null) {
+	        predicates.add(cb.equal(movieLoan.get("movieReturnDate"), movieReturnDate));
 	    }
 
 	    cq.select(movieLoan).where(cb.and(predicates.toArray(new Predicate[0])));

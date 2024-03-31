@@ -11,11 +11,11 @@ import com.videoclub.member.Member;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Integer>{
-	List<Member> findByIme(String ime);
-	List<Member> findByPrezime(String prezime);
-	List<Member> findByBrojTelefona(String brojTelefona);
-	List<Member> findByBrojClanskeKarte(Integer brojClanskeKarte);
-	List<Member> findByBrojClanskeKarteAndImeAndPrezime(Integer brojClanskeKarte, String ime, String prezime);
-	@Query("SELECT m FROM Member m WHERE CAST(m.brojClanskeKarte AS string) LIKE CONCAT(:brojClanskeKarte, '%')")
-	List<Member> findByBrojClanskeKarteLike(@Param("brojClanskeKarte") String brojClanskeKarte);
+	List<Member> findByName(String name);
+	List<Member> findByLastName(String lastName);
+	List<Member> findByPhoneNumber(String phoneNumber);
+	List<Member> findByMemberCardNumber(Integer memberCardNumber);
+	List<Member> findByMemberCardNumberAndNameAndLastName(Integer memberCardNumber, String name, String lastName);
+	@Query("SELECT m FROM Member m WHERE CAST(m.memberCardNumber AS string) LIKE CONCAT(:memberCardNumber, '%')")
+	List<Member> findByMemberCardNumberLike(@Param("memberCardNumber") String memberCardNumber);
 }
