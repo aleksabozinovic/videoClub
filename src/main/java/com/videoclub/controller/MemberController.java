@@ -46,7 +46,7 @@ public class MemberController {
 		return "addMember";
 	}
 	
-	@RequestMapping("/member/delete/{memberCardNumber}")
+	@GetMapping("/member/delete/{memberCardNumber}")
 	public String deleteMember(@PathVariable Integer memberCardNumber, Model model) {
 		service.deleteMember(memberCardNumber);
 		return "redirect:/member";
@@ -57,7 +57,7 @@ public class MemberController {
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "lastName", required = false) String lastName,
 			@RequestParam(value = "phoneNumber", required = false) String phoneNumber,
-				@RequestParam(value = "memberCardNumber", required = false) Integer memberCardNumber,
+			@RequestParam(value = "memberCardNumber", required = false) Integer memberCardNumber,
 			Model model) {
 
 		List<Member> filteredMembers = service.findByCriteria(name, lastName, phoneNumber, memberCardNumber);

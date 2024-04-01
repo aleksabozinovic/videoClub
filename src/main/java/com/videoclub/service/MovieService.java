@@ -39,9 +39,7 @@ public class MovieService {
 		}
 
 		public void deleteMovie(Integer inventoryNumber) {
-
 			repo.deleteById(inventoryNumber);
-			
 		}
 		
 

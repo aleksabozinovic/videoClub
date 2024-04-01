@@ -61,7 +61,6 @@ public class MovieLoanController {
 	@GetMapping("/movieLoan")
 	public String showLoanedMovies(Model model) {
 		List<Movie> movieLists = movieLoanService.listMovies();
-		
 
 		model.addAttribute("movieLists", movieLists);
 		return "movieLoan";
@@ -83,11 +82,7 @@ public class MovieLoanController {
 			@RequestParam Integer memberCardNumber,
 			@PathVariable Integer inventoryNumber
 			){
-		
-
-		
-		// napraviti proveru da da li se poklapaju ime, prezime i inventarski broj pre nego sto se sacuva
-		try {
+		  try {
 			movieLoanService.saveManyToMany(inventoryNumber, memberCardNumber,name , lastName);
 			String htmlResponse = "<html><body><h1>Podaci su uspešno sačuvani.</h1>"
 					+ "<a href=\"/\">Povratak na početnu stranicu</a></body></html>";
@@ -117,7 +112,6 @@ public class MovieLoanController {
 		List<Member> memberPrezime = memberRepo.findByLastName(lastName);
 		List<Movie> movie = movieRepo.findByInventoryNumber(memberCardNumber);
 
-		// napraviti proveru da da li se poklapaju ime, prezime i inventarski broj pre nego sto se sacuva
 		try {
 		    if(!member.isEmpty() && !movie.isEmpty() && !memberIme.isEmpty() && !memberPrezime.isEmpty()) {
 		        movieLoanService.movieReturn(inventoryNumber, memberCardNumber, name , lastName);

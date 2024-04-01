@@ -41,10 +41,10 @@ public class MovieLoanService {
 		List<Movie> borrowedMovies = movieLoanRepo.findAll().stream()
 				.filter(loan -> loan.getMovieReturnDate() == null)
 				.map(MovieLoan::getMovie)
-				.collect(Collectors.toList());	
+				.collect(Collectors.toList());
 		
 		return  allMovies.stream()
-				.filter(movie ->! borrowedMovies.contains(movie))
+				.filter(movie -> !borrowedMovies.contains(movie))
 				.collect(Collectors.toList());	
 	}
 
@@ -73,10 +73,10 @@ public class MovieLoanService {
 		movieLoan.setMember(member);
 
 		// Kreiranje datuma kada je member pozajmio film
-		LocalDate danasnjiDatum = LocalDate.now();
-		movieLoan.setMovieRentalDate(danasnjiDatum);
+		LocalDate todayDate = LocalDate.now();
+		movieLoan.setMovieRentalDate(todayDate);
 
-		int currentYear = danasnjiDatum.getYear();
+		int currentYear = todayDate.getYear();
 		// Provera godina
 		if (currentYear -  member.getBirthYear() < movie.getMpaRating()) {
 			throw new Exception("Član nema dovoljno godina za iznajmljivanje ovog filma.");
@@ -108,7 +108,7 @@ public class MovieLoanService {
 	            }
 	        }
 
-	        // izuzetk ako član sa datim imenom i prezimenom nije pronađen
+	        // ako član sa datim imenom i prezimenom nije pronađen
 	        if (!isMovieReturned) {
 	            throw new Exception("Član sa datim imenom i prezimenom nije pronađen.");
 	        }
