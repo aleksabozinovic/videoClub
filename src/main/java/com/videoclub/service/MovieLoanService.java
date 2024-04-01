@@ -26,7 +26,7 @@ public class MovieLoanService {
 	@Autowired
 	private MemberRepository memberRepo;
 	
-		@Autowired
+	@Autowired
 	private MovieLoanRepository movieLoanRepo;
 	
 	@Autowired
@@ -56,8 +56,8 @@ public class MovieLoanService {
 		List<Member> memberList = memberRepo.findByMemberCardNumberAndNameAndLastName(memberCardNumber, name, lastName);
 		
 		
-	    int brojAktivnihPozajmica = movieLoanRepo.countByMemberMemberCardNumberAndMovieReturnDateIsNull(memberCardNumber);
-	    if(brojAktivnihPozajmica > 4){
+	    int numberOfActiveLoans = movieLoanRepo.countByMemberMemberCardNumberAndMovieReturnDateIsNull(memberCardNumber);
+	    if(numberOfActiveLoans > 4){
 			 throw new Exception("Ne sme se pozajmiti vise od 5 filmova");
 		 }
 	    if (movieList.isEmpty() || memberList.isEmpty()) {
@@ -94,22 +94,22 @@ public class MovieLoanService {
 	    
 		// Provera da li je film pronadjen
 	    if (!movieLoans.isEmpty()) {
-	        LocalDate danasnjiDatum = LocalDate.now();
-	        boolean filmVracen = false;
+	        LocalDate todayDate = LocalDate.now();
+	        boolean isMovieReturned = false;
 	        
 	        for (MovieLoan movieLoan : movieLoans) {
 	            // Provera da li se ime i prezime poklapaju sa članom koji vraća film
 	            if (movieLoan.getMember().getName().equals(name) && movieLoan.getMember().getLastName().equals(lastName)) {
 	                // Ažuriranje podataka o datumu vraćanja filma
-	                movieLoan.setMovieReturnDate(danasnjiDatum);
+	                movieLoan.setMovieReturnDate(todayDate);
 	                // Čuvanje ažuriranih podataka
 	                movieLoanRepo.save(movieLoan);
-	                filmVracen = true;
+	                isMovieReturned = true;
 	            }
 	        }
 
 	        // izuzetk ako član sa datim imenom i prezimenom nije pronađen
-	        if (!filmVracen) {
+	        if (!isMovieReturned) {
 	            throw new Exception("Član sa datim imenom i prezimenom nije pronađen.");
 	        }
 

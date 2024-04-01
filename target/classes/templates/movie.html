@@ -51,7 +51,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Naslov:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.title}" name="title" type="text"   class="form-control">
+						<input oninput="capitalizeLetters(this)" th:value="${param.title}" name="title" type="text"   class="form-control">
 					</div>
 				</div>
 				
@@ -59,7 +59,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Zanr:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.genre}"  type="text"  name="genre"  class="form-control">
+						<input oninput="capitalizeLetters(this)" th:value="${param.genre}"  type="text"  name="genre"  class="form-control">
 					</div>
 				</div>
 				
@@ -67,7 +67,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Inventarski Broj:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.inventoryNumber}" type="text"  name="inventoryNumber"  class="form-control">
+						<input th:value="${param.inventoryNumber}" type="text" oninput = "validateNumber(this)"  name="inventoryNumber"  class="form-control">
 					</div>
 				</div>
 				
@@ -75,7 +75,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Jezik:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.language}" name="language" type="text"   class="form-control">
+						<input oninput="capitalizeFirstLetter(this)" th:value="${param.language}" name="language" type="text"   class="form-control">
 					</div>
 				</div>
 				
@@ -84,10 +84,9 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Godina Snimanja:</label>
 					<div class="col-sm-9">
-						<select id="yearDropdown" name="yearOfRecording" h:value="${param.yearOfRecording}" class="form-control"></select>
 
-						<!--  <input th:value="${param.godinaSnimanja}" name="godinaSnimanja" type="text"   class="form-control">
-						-->
+						<input th:value="${param.yearOfRecording}" oninput = "validateNumber(this)" name="yearOfRecording" type="text"   class="form-control">
+					
 					</div>
 				</div>
 				
@@ -96,7 +95,7 @@
 				<div class="form-group row mb-3">
 					<label class="col-sm-3 col-form-label">Starosno Ogranicenje:</label>
 					<div class="col-sm-9">
-						<input th:value="${param.starosnoOgranicenje}" name="starosnoOgranicenje" type="text"   class="form-control">
+						<input th:value="${param.mpaRating}" oninput = "validateNumber(this)" name="mpaRating" type="text"   class="form-control">
 					</div>
 				</div>
 				
@@ -156,9 +155,7 @@
 				inputField.setAttribute('placeholder', `Pretraga po ${selectedValue}`);
 				if(selectField.selectedIndex==0) inputField.setAttribute('placeholder', `Svi Filmovi`);			
 			})
-		</script>
-		
-		<script>
+			
 			  const select = document.getElementById('yearDropdown');
 			  const currentYear = new Date().getFullYear();
 			  const earliestYear = 1940;
@@ -169,6 +166,22 @@
 			    option.textContent = year;
 			    select.appendChild(option);
 			  }
+			  
+			  function capitalizeLetters(input){
+				 var words = input.value.split(' ');
+		        for (var i = 0; i < words.length; i++) {
+		            words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+		        }
+		        input.value = words.join(' ');				  
+		        }
+		        function capitalizeFirstLetter(input){
+					        input.value = input.value.charAt(0).toUpperCase() + input.value.slice(1).toLowerCase();
+				}
+				
+				 function validateNumber(input){
+					input.value = input.value.replace(/[^0-9]/g, '');
+				}
 		</script>
-  </body>
+		
+	</body>
 </html>

@@ -29,4 +29,4 @@
 			- PREBACI INPUTE U DATE
 			- NE MOZES DA PRETRAZIS VISE OD JEDNE STVARI U FORMI
 
-			
+			- Za mpa Rating uradi try catch u addMovie, broj clanske movie/addMovie, inventarski broj

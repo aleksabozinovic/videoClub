@@ -64,7 +64,7 @@ public class MovieService {
 			if(genre != null && !genre.isEmpty())
 				predicates.add(cb.like(movie.get("genre"), genre + "%"));
 			if(language != null && !language.isEmpty())
-				predicates.add(cb.like(movie.get("jezik"), language + "%"));
+				predicates.add(cb.like(movie.get("language"), language + "%"));
 			if(yearOfRecording != null)
 			    predicates.add(cb.like(cb.function("str", String.class, movie.get("yearOfRecording")), "%" + yearOfRecording + "%"));
 			if(inventoryNumber != null)
